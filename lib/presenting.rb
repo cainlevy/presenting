@@ -15,10 +15,35 @@ module Presenting
   end
   
   class Grid < Presentation
-    # configure columns, data types, etc.
-    # allow fields to be strings, methods, procs, or other presentations
-    # allow custom css classes for rows and/or cells
-    # copy ideas from my old Presenting plugin
+    # operates on an object collection
+    # - Array
+    # - WillPaginate
+    # renders Hash or ActiveRecord
+    # - need Hash adapter to allow dot syntax
+    # column options
+    # - render method
+    # - - fixed strings
+    # - - method of object
+    # - - proc
+    # - - other Presentation
+    # - data types
+    # - - nils make it hard to discover
+    # - - ActiveRecord Column if available
+    # - - configurable as backup? decorate Hash so it can be configured there?
+    # - description (behavior: displays in column header)
+    # - sortable?
+    # title
+    # id (defaults based on title)
+    # links
+    # - grid vs record
+    # - label
+    # - url
+    # - - allow named urls
+    # - - interpolate record variables (e.g. id)
+    # - method (only GET, but POST/PUT/DELETE with appropriate javascript)
+    # - other html attributes
+    # - use procs for extra customization?
+    # custom css classes for rows and/or cells
   end
   
   class Form < Presentation
@@ -57,4 +82,7 @@ module Presenting
   # - inline editing
   # - "dirty" form awareness
   # - tabbed forms
+  # - tooltips for extended information (e.g. column description or truncated field text)
+  # - basic form validation
+  # - - required fields
 end
