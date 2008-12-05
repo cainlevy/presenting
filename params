@@ -1,0 +1,55 @@
+PARAMETER CONVENTIONS
+
+Paging (WillPaginate)
+  params[:page] = integer (1+)
+
+Nested Models (adopt Rails' upcoming convention)
+  mixed new and existing has many records
+  
+Sorting
+  single column / direction
+    params[:sort] = column.direction
+    params[:sort][column] = direction
+  multiple columns / directions
+    params[:sort][column] = direction
+    
+  NOTES:
+    no sql injection means that both the column and the direction should be whitelisted
+    columns may not be explicit columns. they may be named_scopes, or some custom sql?
+    
+Searching
+  single value
+    params[:search] = value
+  one value per column
+    params[:search] = {column => value}
+      name="search[foo]"          value="bar"
+  one value and operator per column
+    params[:search] = {column => {:operator => operator, :value => value}}
+      name="search[foo][operator]" value="="
+      name="search[foo][value]"   value="bar"
+    params[:search] = {column => [operator, value]}
+      name="search[foo][]"        value="="
+      name="search[foo][]"        value="bar"
+  multiple values or operators per column
+    params[:search] = [{:column => column, :operator => operator, :value => value}, {}]
+      name="search[3][column]"    value="foo"
+      name="search[3][operator]"  value="="
+      name="search[3][value]"     value="bar"
+    params[:search] = [[column, operator, value], []]
+      name="search[2][]"          value="foo"
+      name="search[2][]"          value="="
+      name="search[2][]"          value="bar"
+    params[:search] = [{:c => column, :o => operator, :v => value}, {}]
+      name="search[4][c]"         value="foo"
+      name="search[4][o]"         value="="
+      name="search[4][v]"         value="bar"
+  search macros (aka scopes, filters, smart searches)
+    params[:scope] = value
+    params[:scopes] = [value]
+    
+  NOTES:
+    the positional params aren't self-documenting. strike.
+    the full hash keys are too bulky for GET. strike.
+    it's not worth combining field/operator or operator/value. that requires javascript or an expert user to combine them.
+    operators should be whitelisted or interpreted, so there's no sql injection
+    columns should be whitelisted or interpreted, so there's no sql injection
