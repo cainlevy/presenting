@@ -108,6 +108,20 @@ module Presenting
     # custom css classes for rows and/or cells
   end
   
+  class Search < Presentation
+    # operates on a data model
+    # fields have search types
+    # one of four search types
+    # - single value
+    # - one value per field
+    # - one value/operator per field
+    # - multiple values/operators per field
+  end
+  
+  class Filter < Presentation
+    # like search but for filters/scopes (searches that toggle on and off w/o arguments)
+  end
+  
   class Form < Presentation
     # define fields
     # group fields
