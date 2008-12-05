@@ -7,7 +7,7 @@ require 'activesupport'
 require 'actionpack'
 
 # prepare for autoloading
-Dependencies.load_paths << File.dirname(__FILE__) + '/../lib/'
+ActiveSupport::Dependencies.load_paths << File.dirname(__FILE__) + '/../lib/'
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib/'
 
 # load th ecode
