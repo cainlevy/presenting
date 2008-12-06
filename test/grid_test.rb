@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/test_helper'
 class GridTest < Test::Unit::TestCase
 
   def setup
-    @g = Presenting::Grid.new
+    @g = Presentation::Grid.new
   end
   
   def test_default_title
@@ -34,7 +34,7 @@ end
 class GriedFieldSetTest < Test::Unit::TestCase
 
   def setup
-    @f = Presenting::Grid::FieldSet.new
+    @f = Presentation::Grid::FieldSet.new
   end
 
   def test_adding_a_field_by_name
@@ -60,7 +60,7 @@ end
 class GridFieldTest < Test::Unit::TestCase
 
   def setup
-    @f = Presenting::Grid::Field.new
+    @f = Presentation::Grid::Field.new
   end
 
   def test_assigning_a_symbol_name
