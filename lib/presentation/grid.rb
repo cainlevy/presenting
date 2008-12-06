@@ -63,6 +63,14 @@ module Presentation
       # - Symbol: a method on the record (no arguments)
       # - Proc: a custom block that accepts the record as an argument
       attr_accessor :value
+      
+      def value_from(obj)
+        case value
+          when Symbol: obj.send(value)
+          when String: value
+          when Proc:   value.call(obj)
+        end
+      end
     
       # TODO: discover "type" from data class (ActiveRecord) if available
       # TODO: decorate a Hash object so type is specifiable there as well

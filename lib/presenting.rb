@@ -3,6 +3,7 @@ module Presenting
     def present(object, type, options = {})
       klass = Presenting.const_get(type.to_s.camelcase)
       instance = klass.new(options) # initializer configuration
+      instance.presentable = object
       # TODO: yield instance for block configuration
       instance.render(controller)
     end

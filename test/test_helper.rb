@@ -8,6 +8,7 @@ require 'actionpack'
 require 'action_controller'
 require 'action_controller/assertions'
 require 'action_view'
+require 'mocha'
 
 # prepare for autoloading
 ActiveSupport::Dependencies.load_paths << File.dirname(__FILE__) + '/../lib/'

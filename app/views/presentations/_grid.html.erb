@@ -2,10 +2,20 @@
   <div class="title"><%= @grid.title %></div>
   <table>
     <thead>
-      <!-- column headers -->
+      <% @grid.fields.each do |field| %>
+        <th><%= field.name %></th>
+      <% end %>
     </thead>
     <tbody>
-    
+      <% @grid.presentable.each do |row| %>
+        <tr>
+          <% @grid.fields.each do |field| %>
+            <td>
+              <%= field.value_from(row) %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
     </tbody>
     <tfoot>
       <!-- pagination -->

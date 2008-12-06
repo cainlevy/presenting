@@ -31,9 +31,42 @@ class GridTest < Test::Unit::TestCase
 
   def test_render
     @g = Presentation::Grid.new(:id => "foo")
+    @g.presentable = []
     @render = @g.render
     assert_select "#foo" do
       assert_select "div.title", "Foo"
+    end
+  end
+  
+  def test_rendering_column_headers
+    @g = Presentation::Grid.new(:id => "foo", :fields => [:a, :b, :c])
+    @g.presentable = []
+    @render = @g.render
+    assert_select "#foo" do
+      assert_select "thead" do
+        assert_select "th", "a"
+        assert_select "th", "b"
+        assert_select "th", "c"
+      end
+    end
+  end
+
+  def test_rendering_rows
+    @g = Presentation::Grid.new(:id => "foo", :fields => [:a, :b])
+    @g.presentable = [
+      mock('row', :a => "alpha", :b => "beta"),
+      mock('row', :a => "alpha2", :b => "beta2")
+    ]
+    @render = @g.render
+    assert_select "#foo tbody" do
+      assert_select "tr:nth-child(1)" do
+        assert_select 'td:nth-child(1)', 'alpha'
+        assert_select 'td:nth-child(2)', 'beta'
+      end
+      assert_select "tr:nth-child(2)" do
+        assert_select 'td:nth-child(1)', 'alpha2'
+        assert_select 'td:nth-child(2)', 'beta2'
+      end
     end
   end
 
@@ -80,7 +113,23 @@ class GridFieldTest < Test::Unit::TestCase
   def test_assigning_a_string_name
     @f.name = "foo"
     assert_equal "foo", @f.name, "name remains a string"
-    assert_equal "foo", @f.value, "value is assumed to be a constant string"
+    assert_equal "foo", @f.value, "value is assumed to be a string"
+  end
+  
+  def test_symbol_values
+    @f.value = :foo
+    assert_equal "bar", @f.value_from(stub('row', :foo => "bar")), "symbols are methods"
+  end
+  
+  def test_string_values
+    @f.value = "foo"
+    assert_equal "foo", @f.value_from(stub('row', :foo => "bar")), "strings are constant"
+  end
+  
+  def test_proc_values
+    @f.value = proc{|row| "hello"}
+    assert_equal "hello", @f.value_from(stub('row', :foo => "bar")), "procs are custom"
   end
   
 end
+

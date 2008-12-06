@@ -7,9 +7,9 @@ module Presentation
       view(controller).render :partial => "presentations/#{self.class.to_s.split('::').last.underscore}"
     end
     
-    protected
+    attr_accessor :presentable
     
-    attr_reader :controller
+    protected
     
     # what the presentation is called in its templates
     def iname
@@ -18,14 +18,7 @@ module Presentation
     
     # a reference to the view
     def view(controller) #:nodoc:
-      unless defined? @view
-        # create a fresh view for this presentation. this is a clean slate for assigns.
-        # but link it to the actual controller so that common helpers work properly.
-        @view = ActionView::Base.new(ActionController::Base.view_paths, assigns_for_view, controller)
-        # add in the application helpers
-        @view.extend ActionController::Base.master_helper_module
-      end
-      @view
+      @view ||= ActionView::Base.new(ActionController::Base.view_paths, assigns_for_view, nil)
     end
     
     def assigns_for_view
