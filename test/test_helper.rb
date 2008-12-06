@@ -6,6 +6,7 @@ require 'rubygems'
 require 'activesupport'
 require 'actionpack'
 require 'action_controller'
+require 'action_controller/assertions'
 require 'action_view'
 
 # prepare for autoloading
@@ -15,3 +16,16 @@ $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib/'
 # load the code
 require File.dirname(__FILE__) + '/../init'
 
+class Test::Unit::TestCase
+  include ActionController::Assertions::SelectorAssertions
+
+  protected
+  
+  def response_from_page_or_rjs
+    html_document.root
+  end
+  
+  def html_document
+    HTML::Document.new(@render)
+  end  
+end

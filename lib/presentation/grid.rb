@@ -30,6 +30,8 @@ module Presentation
       @fields ||= FieldSet.new
     end
     
+    def iname; :grid end
+    
     class FieldSet < Array
       # Accepts field specifications to varying degrees of detail.
       # If you assign a Symbol or String, that will be the field's :name and :value.

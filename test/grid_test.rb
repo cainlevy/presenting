@@ -29,6 +29,14 @@ class GridTest < Test::Unit::TestCase
     assert_equal "bar", @g.fields[2].value
   end
 
+  def test_render
+    @g = Presentation::Grid.new(:id => "foo")
+    @render = @g.render
+    assert_select "#foo" do
+      assert_select "div.title", "Foo"
+    end
+  end
+
 end
 
 class GriedFieldSetTest < Test::Unit::TestCase
