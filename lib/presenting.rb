@@ -1,10 +1,9 @@
 module Presenting
-  class Helpers
-    def present(object, type, options = {})
-      klass = Presenting.const_get(type.to_s.camelcase)
-      instance = klass.new(options) # initializer configuration
+  module Helpers
+    def present(object, type, options = {}, &block)
+      klass = Presentation.const_get(type.to_s.camelcase)
+      instance = klass.new(options, &block)
       instance.presentable = object
-      # TODO: yield instance for block configuration
       instance.render(controller)
     end
   end

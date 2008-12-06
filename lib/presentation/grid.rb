@@ -64,7 +64,7 @@ module Presentation
       # - Proc: a custom block that accepts the record as an argument
       attr_accessor :value
       
-      def value_from(obj)
+      def value_from(obj) #:nodoc:
         case value
           when Symbol: obj.send(value)
           when String: value
