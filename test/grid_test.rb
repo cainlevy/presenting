@@ -5,6 +5,11 @@ class GridTest < Test::Unit::TestCase
   def setup
     @g = Presenting::Grid.new
   end
+  
+  def test_default_title
+    @g.id = "something_or_other"
+    assert_equal "Something Or Other", @g.title
+  end
 
   def test_adding_multiple_fields
     @g.fields = [

@@ -1,23 +1,64 @@
 module Presenting
-  # My Plan:
-  # 1) start drafting API for standardized parameters
-  # 2) work out basic configuration for Grid and Form
-  # 3) work out proper markup for Grid and Form
-  # 4) iterate on 2 and 3
-  # 5) work out stylesheet bundling
-  # 6) provide layout stylesheets for Grid and Form
+  module Configurable
+    def initialize(options = {})
+      options.each do |k, v|
+        self.send("#{k}=", v)
+      end
+    end
+  end
+
+  class Helpers
+    def present(object, type, options = {})
+      klass = Presenting.const_get(type.to_s.camelcase)
+      instance = klass.new(options) # initializer configuration
+      # TODO: yield instance for block configuration
+      instance.render(controller)
+    end
+  end
 
   class Presentation
-    # base class
-    # each presentation has one or more view templates
-    # each presentation is configurable
-    # each presentation strives to encapsulate all relevant view logic
+    include Configurable
+    
+    # note: this would require rails 2.3 or engines to work. hmm.
+    def render(controller = nil)
+      view(controller).render :partial => "presentations/#{self.class.to_s.split('::').last.underscore}"
+    end
+    
+    protected
+    
+    attr_reader :controller
+    
+    # what the presentation is called in its templates
+    def iname
+      :presentation
+    end
+    
+    # a reference to the view
+    def view(controller) #:nodoc:
+      unless defined? @view
+        # create a fresh view for this presentation. this is a clean slate for assigns.
+        # but link it to the actual controller so that common helpers work properly.
+        @view = ActionView::Base.new(ActionController::Base.view_paths, assigns_for_view, controller)
+        # add in the application helpers
+        @view.extend ActionController::Base.master_helper_module
+      end
+      @view
+    end
+    
+    def assigns_for_view
+      {iname => self}
+    end
+    
   end
   
   class Grid < Presentation
     # The id for this presentation.
     attr_accessor :id
-    attr_accessor :title # TODO: defaults based on ID
+    
+    attr_writer :title
+    def title
+      @title ||= self.id.titleize
+    end
     
     # Paradigm Example:
     #   Grid.new(:fields => [
@@ -59,11 +100,7 @@ module Presenting
     end
     
     class Field
-      def initialize(options = {})
-        options.each do |k, v|
-          self.send("#{k}=", v)
-        end
-      end
+      include Configurable
     
       def name=(val)
         self.value ||= val # don't lazy define :value, because we're about to typecast here
