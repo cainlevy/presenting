@@ -1,13 +1,4 @@
 module Presenting
-  module Helpers
-    def present(object, type, options = {}, &block)
-      klass = Presentation.const_get(type.to_s.camelcase)
-      instance = klass.new(options, &block)
-      instance.presentable = object
-      instance.render(controller)
-    end
-  end
-
   # TODO bundle stylesheets that can make things pretty. let users decide which ones to link.
   # - layout / typography
   # - colors
