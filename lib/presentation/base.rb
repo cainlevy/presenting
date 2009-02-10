@@ -3,8 +3,8 @@ module Presentation
     include Presenting::Configurable
     
     # note: this would require rails 2.3 or engines to work. hmm.
-    def render(controller = nil)
-      view(controller).render :partial => "presentations/#{self.class.to_s.split('::').last.underscore}"
+    def render
+      view.render :partial => "presentations/#{self.class.to_s.split('::').last.underscore}"
     end
     
     attr_accessor :presentable
@@ -17,7 +17,7 @@ module Presentation
     end
     
     # a reference to the view
-    def view(controller) #:nodoc:
+    def view #:nodoc:
       @view ||= ActionView::Base.new(ActionController::Base.view_paths, assigns_for_view, nil)
     end
     
