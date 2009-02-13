@@ -12,6 +12,6 @@ class Presentation::StylesheetsControllerTest < ActionController::TestCase
   end
   
   def test_named_stylesheet_routes
-    assert_equal "/presentation/stylesheets/foo.css", formatted_presentation_stylesheet_path("foo", 'css')
+    assert_equal "/presentation/stylesheets/foo.css", presentation_stylesheet_path("foo", :format => 'css')
   end
 end
