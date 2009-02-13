@@ -20,7 +20,7 @@ $LOAD_PATH.unshift File.join(PLUGIN_ROOT, 'lib')
 ActionController::Base.view_paths << File.join(PLUGIN_ROOT, 'app', 'views')
 ActiveSupport::Dependencies.load_paths << File.join(PLUGIN_ROOT, 'app', 'controllers')
 $LOAD_PATH.unshift File.join(PLUGIN_ROOT, 'app', 'controllers')
-require File.join(PLUGIN_ROOT, 'routes')
+require File.join(PLUGIN_ROOT, 'config', 'routes')
 require File.join(PLUGIN_ROOT, 'init')
 
 class Test::Unit::TestCase
