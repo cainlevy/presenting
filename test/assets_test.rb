@@ -20,4 +20,11 @@ class Presentation::StylesheetsControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal @response.body, File.read(File.join(PLUGIN_ROOT, 'app', 'assets', 'stylesheets', 'grid.css'))
   end
+  
+  def test_retrieving_multiple_named_stylesheets
+    get :show, :id => 'grid,form'
+    assert_response :success
+    assert @response.body.include?(File.read(File.join(PLUGIN_ROOT, 'app', 'assets', 'stylesheets', 'grid.css')))
+    assert @response.body.include?(File.read(File.join(PLUGIN_ROOT, 'app', 'assets', 'stylesheets', 'form.css')))
+  end
 end
