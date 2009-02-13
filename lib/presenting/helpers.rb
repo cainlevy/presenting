@@ -2,8 +2,7 @@ module Presenting
   module Helpers
     def present(object, presentation = nil, options = {}, &block)
       if presentation
-        method_name = "present_#{type}".to_sym
-        if Presentation.const_defined?(klass_name = type.to_s.camelcase)
+        if Presentation.const_defined?(klass_name = presentation.to_s.camelcase)
           klass = Presentation.const_get(klass_name)
           instance = klass.new(options, &block)
           instance.presentable = object
@@ -11,7 +10,7 @@ module Presenting
         elsif respond_to?(method_name = "present_#{presentation}")
           send(method_name, object, options)
         else
-          raise "unknown presentation `#{presentation}'"
+          raise ArgumentError, "unknown presentation `#{presentation}'"
         end
       elsif object.respond_to?(:loaded?) # AssociationProxy
         present_association(object)
@@ -27,38 +26,32 @@ module Presenting
       present_by_class(object)
     end
     
-    def present_by_class
-      case object.class
+    def present_by_class(object)
+      case object
         when Array
         content_tag "ol" do
-          array.collect do |i|
-            content_tag "li", present_type(i)
+          object.collect do |i|
+            content_tag "li", present(i)
           end.join
         end
         
         when Hash
         # sort by keys
         content_tag "dl" do
-          hash.keys.sort.collect do |k|
+          object.keys.sort.collect do |k|
             content_tag("dt", k) +
-            content_tag("dd", present_type(hash[k]))
+            content_tag("dd", present(object[k]))
           end.join
         end
         
-        when Boolean
-        v ? "True" : "False"
+        when TrueClass, FalseClass
+        object ? "True" : "False"
         
-        when Date
-        v.to_s :long # e.g. November 10, 2007
-        
-        when Time
-        v.to_s :time # e.g. 06:10:17
-        
-        when DateTime
-        v.to_s :long # e.g. December 04, 2007 15:10
+        when Date, Time, DateTime
+        object.to_s :long
         
         else
-        v.to_s
+        object.to_s
       end 
     end
   end
