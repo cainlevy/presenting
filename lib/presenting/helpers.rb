@@ -2,8 +2,8 @@ module Presenting
   module Helpers
     def present(object, presentation = nil, options = {}, &block)
       if presentation
-        if Presentation.const_defined?(klass_name = presentation.to_s.camelcase)
-          klass = Presentation.const_get(klass_name)
+        klass = "Presentation::#{presentation.to_s.camelcase}".constantize rescue nil
+        if klass
           instance = klass.new(options, &block)
           instance.presentable = object
           instance.render
