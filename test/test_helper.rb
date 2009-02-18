@@ -23,17 +23,26 @@ $LOAD_PATH.unshift File.join(PLUGIN_ROOT, 'app', 'controllers')
 require File.join(PLUGIN_ROOT, 'config', 'routes')
 require File.join(PLUGIN_ROOT, 'init')
 
-class Test::Unit::TestCase
+# a way to customize syntax for our tests
+class Presentation::Test < Test::Unit::TestCase
+  def default_test; end # to quiet Test::Unit
+end
+
+# inheriting tests should target rendering behavior given certain configurations
+class Presentation::RenderTest < Presentation::Test
   include ActionController::Assertions::SelectorAssertions
 
   protected
+  
+  def render
+    @render ||= @presentation.render
+  end
   
   def response_from_page_or_rjs
     html_document.root
   end
   
   def html_document
-    HTML::Document.new(@render)
-  end  
+    HTML::Document.new(render)
+  end
 end
-

@@ -1,7 +1,6 @@
 require File.dirname(__FILE__) + '/test_helper'
 
-class GridTest < Test::Unit::TestCase
-
+class GridTest < Presentation::Test
   def setup
     @g = Presentation::Grid.new
   end
@@ -50,90 +49,76 @@ class GridTest < Test::Unit::TestCase
       @g.record_links = ['<a href="/foo">foo</a>']
     end
   end
+end
+
+class GridRenderTest < Presentation::RenderTest
+  def setup
+    @presentation = Presentation::Grid.new(:id => "users", :fields => [:name, :email])
+    @records = [
+      stub('user', :name => 'foo', :email => 'foo@example.com'),
+      stub('user', :name => 'bar', :email => 'bar@example.com')
+    ]
+    @presentation.presentable = @records
+  end
+
+  def test_rendering_the_title
+    assert_select "#users" do
+      assert_select "div.title", "Users"
+    end
+  end
   
   def test_rendering_links
-    @g = Presentation::Grid.new(:id => "foo", :fields => [:name])
-    @g.links = ['<a href="/foo" class="foo">bar</a>']
-    @g.presentable = []
-    @render = @g.render
+    @presentation.links = ['<a href="/foo" class="foo">bar</a>']
 
-    assert_select '#foo ul.actions' do
+    assert_select '#users ul.actions' do
       assert_select 'li a.foo', 'bar'
     end
   end
   
   def test_rendering_record_links
-    @g = Presentation::Grid.new(:id => "foo", :fields => [:name])
-    @g.record_links = [proc{|r| '<a href="/foo" class="foo">' + r.name + '</a>'}]
-    @g.presentable = [
-      stub('row', :name => "bar")
-    ]
-    @render = @g.render
+    @presentation.record_links = [proc{|r| "<a href='/foo' class='record-link'>#{r.name}</a>"}]
     
-    assert_select '#foo tbody tr td ul.actions' do
-      assert_select 'li a.foo', 'bar'
+    assert_select '#users tbody tr td ul.actions' do
+      assert_select 'li a.record-link', 'foo'
+      assert_select 'li a.record-link', 'bar'
     end
   end
 
-
-  def test_render
-    @g = Presentation::Grid.new(:id => "foo")
-    @g.presentable = []
-    @render = @g.render
-    assert_select "#foo" do
-      assert_select "div.title", "Foo"
-    end
-  end
-  
   def test_rendering_column_headers
-    @g = Presentation::Grid.new(:id => "foo", :fields => [:a, :b, :c])
-    @g.presentable = []
-    @render = @g.render
-    assert_select "#foo" do
+    assert_select "#users" do
       assert_select "thead" do
-        assert_select "th", "A"
-        assert_select "th", "B"
-        assert_select "th", "C"
+        assert_select "th", "Name"
+        assert_select "th", "Email"
       end
     end
   end
 
   def test_rendering_rows
-    @g = Presentation::Grid.new(:id => "foo", :fields => [:a, :b])
-    @g.presentable = [
-      mock('row', :a => "alpha", :b => "beta"),
-      mock('row', :a => "alpha2", :b => "beta2")
-    ]
-    @render = @g.render
-    assert_select "#foo tbody" do
+    assert_select "#users tbody" do
       assert_select "tr:nth-child(1)" do
-        assert_select 'td:nth-child(1)', 'alpha'
-        assert_select 'td:nth-child(2)', 'beta'
+        assert_select 'td:nth-child(1)', 'foo'
+        assert_select 'td:nth-child(2)', 'foo@example.com'
       end
       assert_select "tr:nth-child(2)" do
-        assert_select 'td:nth-child(1)', 'alpha2'
-        assert_select 'td:nth-child(2)', 'beta2'
+        assert_select 'td:nth-child(1)', 'bar'
+        assert_select 'td:nth-child(2)', 'bar@example.com'
       end
     end
   end
 
   def test_rendering_sanitized_data
-    @g = Presentation::Grid.new(:id => 'foo', :fields => [
-      {:a => {:sanitize => false}},
-      {:b => {:sanitize => true}}
-    ])
-    @g.presentable = [
-      mock('row', :a => 'class << self', :b => 'class << self')
-    ]
-    @render = @g.render
-    assert_select "#foo tbody tr" do
-      assert_select 'td:nth-child(1)', 'class << self'
-      assert_select 'td:nth-child(2)', 'class &lt;&lt; self'
+    @presentation.fields[0].sanitize = true
+    @presentation.fields[1].sanitize = false
+    @records << stub('row', :name => '&', :email => '&')
+    
+    assert_select "#users tbody tr" do
+      assert_select 'td:nth-child(1)', '&amp;'
+      assert_select 'td:nth-child(2)', '&'
     end
   end
 end
 
-class GriedFieldSetTest < Test::Unit::TestCase
+class GriedFieldSetTest < Presentation::Test
 
   def setup
     @f = Presentation::Grid::FieldSet.new
@@ -159,7 +144,7 @@ class GriedFieldSetTest < Test::Unit::TestCase
 
 end
 
-class GridFieldTest < Test::Unit::TestCase
+class GridFieldTest < Presentation::Test
 
   def setup
     @f = Presentation::Grid::Field.new
