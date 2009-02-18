@@ -11,8 +11,8 @@ module Presentation
     # Paradigm Example:
     #   Grid.new(:fields => [
     #     :email,
-    #     "Full Name" => proc{|r| [r.first_name, r.last_name].join(' ')},
-    #     "Roles" => {:value => :roles, :type => :collection}
+    #     {"Full Name" => proc{|r| [r.first_name, r.last_name].join(' ')}},
+    #     {"Roles" => {:value => :roles, :type => :collection}}
     #   ])
     #
     # Is equivalent to:
@@ -87,6 +87,10 @@ module Presentation
         @sanitize
       end
 
+      ##
+      ## Planned
+      ##
+
       # TODO: discover "type" from data class (ActiveRecord) if available
       # TODO: decorate a Hash object so type is specifiable there as well
       # PLAN: type should determine how a field renders. custom types for custom renders.
@@ -97,6 +101,10 @@ module Presentation
       
       # PLAN: discover whether a field is sortable (via SQL), but allow overrides
       attr_accessor :sortable
+      
+      # PLAN: any field may be linked. this would happen after :value and :type.
+      attr_accessor :link
+
     end
     
     # operates on an object collection
@@ -116,5 +124,7 @@ module Presentation
     # - other html attributes
     # - use procs for extra customization?
     # custom css classes for rows and/or cells
+    # required options: id, fields
+    # inspect an ActiveRecord class to default field set? just make fields= take an activerecord class?
   end
 end
