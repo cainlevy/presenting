@@ -69,13 +69,24 @@ module Presentation
       attr_accessor :value
       
       def value_from(obj) #:nodoc:
-        case value
+        v = case value
           when Symbol: obj.send(value)
           when String: value
           when Proc:   value.call(obj)
         end
+        
+        sanitize? ? Presenting::Sanitize.h(v) : v
       end
-    
+      
+      # whether html should be sanitize. right now this actually means html escaping.
+      attr_writer :sanitize
+      def sanitize?
+        unless defined? @sanitize
+          @sanitize = true
+        end
+        @sanitize
+      end
+
       # TODO: discover "type" from data class (ActiveRecord) if available
       # TODO: decorate a Hash object so type is specifiable there as well
       # PLAN: type should determine how a field renders. custom types for custom renders.

@@ -70,6 +70,20 @@ class GridTest < Test::Unit::TestCase
     end
   end
 
+  def test_sanitizing_data
+    @g = Presentation::Grid.new(:id => 'foo', :fields => [
+      {:a => {:sanitize => false}},
+      {:b => {:sanitize => true}}
+    ])
+    @g.presentable = [
+      mock('row', :a => 'class << self', :b => 'class << self')
+    ]
+    @render = @g.render
+    assert_select "#foo tbody tr" do
+      assert_select 'td:nth-child(1)', 'class << self'
+      assert_select 'td:nth-child(2)', 'class &lt;&lt; self'
+    end
+  end
 end
 
 class GriedFieldSetTest < Test::Unit::TestCase
@@ -131,5 +145,14 @@ class GridFieldTest < Test::Unit::TestCase
     assert_equal "hello", @f.value_from(stub('row', :foo => "bar")), "procs are custom"
   end
   
+  def test_that_value_from_sanitizes_when_configured
+    @f.value = '<span>hello</span>'
+    @f.sanitize = true
+    assert_equal '&lt;span&gt;hello&lt;/span&gt;', @f.value_from(nil)
+  end
+  
+  def test_sanitize_is_default_true
+    assert @f.sanitize?
+  end
 end
 

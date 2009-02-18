@@ -36,3 +36,4 @@ class Test::Unit::TestCase
     HTML::Document.new(@render)
   end  
 end
+
