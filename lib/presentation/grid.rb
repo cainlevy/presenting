@@ -106,7 +106,53 @@ module Presentation
       attr_accessor :link
 
     end
+
+    # Links are an area where I almost made the mistake of too much configuration. Presentations are configured in the view,
+    # and all of the view helpers are available. When I looked at the (simple) configuration I was building and realized that
+    # I could just as easily take the result of link_to, well, I felt a little silly.
+    #
+    # Compare:
+    #
+    #   @grid.links = [
+    #     {:name => 'Foo', :url => foo_path, :class => 'foo'}
+    #   ]
+    #
+    # vs:
+    #
+    #   @grid.links = [
+    #     link_to('Foo', foo_path, :class => 'foo')
+    #   ]
+    #
+    # Not only is the second example (the supported example, by the way) shorter and cleaner, it encourages the developer
+    # to stay in touch with the Rails internals and therefore discourages a configuration-heavy mindset.
+    def links=(set)
+      set.each do |link|
+        raise ArgumentError, "Links must be strings, such as the output of link_to()." unless link.is_a?(String)
+        links << link
+      end
+    end
+    def links
+      @links ||= []
+    end
     
+    # Like links, except the link will appear for each record. This means that the link must be a block that accepts the
+    # record as its argument. For example:
+    #
+    # @grid.record_links = [
+    #   proc{|record| link_to("Foo", foo_path(record), :class => 'foo') }
+    # ]
+    #
+    def record_links=(set)
+      set.each do |link|
+        raise ArgumentError, "Record links must be blocks that accept the record as an argument." unless link.respond_to?(:call) and link.arity == 1
+        record_links << link
+      end
+    end
+    def record_links
+      @record_links ||= []
+    end
+
+
     # operates on an object collection
     # - Array
     # - WillPaginate
@@ -114,15 +160,6 @@ module Presentation
     # - need Hash adapter to allow dot syntax
     # title
     # id (defaults based on title)
-    # links
-    # - grid vs record
-    # - label
-    # - url
-    # - - allow named urls
-    # - - interpolate record variables (e.g. id)
-    # - method (only GET, but POST/PUT/DELETE with appropriate javascript)
-    # - other html attributes
-    # - use procs for extra customization?
     # custom css classes for rows and/or cells
     # required options: id, fields
     # inspect an ActiveRecord class to default field set? just make fields= take an activerecord class?

@@ -1,17 +1,36 @@
-<div id="<%= @grid.id %>">
+<div id="<%= @grid.id %>" class="presentation-grid">
   <div class="title"><%= @grid.title %></div>
+  <% unless @grid.links.empty? %>
+    <ul class="actions">
+      <% @grid.links.each do |link| %>
+        <li><%= link %></li>
+      <% end %>
+    </ul>
+  <% end %>
   <table>
     <thead>
       <% @grid.fields.each do |field| %>
         <th><%= field.name %></th>
       <% end %>
+      <% unless @grid.record_links.empty? %>
+        <th></th>
+      <% end %>
     </thead>
     <tbody>
-      <% @grid.presentable.each do |row| %>
+      <% @grid.presentable.each do |record| %>
         <tr>
           <% @grid.fields.each do |field| %>
             <td>
-              <%= present(field.value_from row) %>
+              <%= present(field.value_from record) %>
+            </td>
+          <% end %>
+          <% unless @grid.record_links.empty? %>
+            <td>
+              <ul class="actions">
+                <% @grid.record_links.each do |link| %>
+                  <li><%= link.call(record) %></li>
+                <% end %>
+              </ul>
             </td>
           <% end %>
         </tr>

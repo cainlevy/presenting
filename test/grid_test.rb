@@ -28,6 +28,53 @@ class GridTest < Test::Unit::TestCase
     assert_equal "C", @g.fields[2].name
     assert_equal "bar", @g.fields[2].value
   end
+  
+  def test_adding_links_as_strings
+    @g.links = ['<a href="/foo">foo</a>']
+    assert_equal 1, @g.links.size
+  end
+  
+  def test_adding_links_as_procs
+    assert_raises ArgumentError do
+      @g.links = [proc{|record| link_to(record.name, record)}]
+    end
+  end
+  
+  def test_adding_record_links_as_procs
+    @g.record_links = [proc{|record| link_to(record.name, record)}]
+    assert_equal 1, @g.record_links.size
+  end
+  
+  def test_adding_record_links_as_strings
+    assert_raises ArgumentError do
+      @g.record_links = ['<a href="/foo">foo</a>']
+    end
+  end
+  
+  def test_rendering_links
+    @g = Presentation::Grid.new(:id => "foo", :fields => [:name])
+    @g.links = ['<a href="/foo" class="foo">bar</a>']
+    @g.presentable = []
+    @render = @g.render
+
+    assert_select '#foo ul.actions' do
+      assert_select 'li a.foo', 'bar'
+    end
+  end
+  
+  def test_rendering_record_links
+    @g = Presentation::Grid.new(:id => "foo", :fields => [:name])
+    @g.record_links = [proc{|r| '<a href="/foo" class="foo">' + r.name + '</a>'}]
+    @g.presentable = [
+      stub('row', :name => "bar")
+    ]
+    @render = @g.render
+    
+    assert_select '#foo tbody tr td ul.actions' do
+      assert_select 'li a.foo', 'bar'
+    end
+  end
+
 
   def test_render
     @g = Presentation::Grid.new(:id => "foo")
@@ -70,7 +117,7 @@ class GridTest < Test::Unit::TestCase
     end
   end
 
-  def test_sanitizing_data
+  def test_rendering_sanitized_data
     @g = Presentation::Grid.new(:id => 'foo', :fields => [
       {:a => {:sanitize => false}},
       {:b => {:sanitize => true}}
