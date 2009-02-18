@@ -11,7 +11,7 @@
         <tr>
           <% @grid.fields.each do |field| %>
             <td>
-              <%= field.value_from(row) %>
+              <%= present(field.value_from row) %>
             </td>
           <% end %>
         </tr>
