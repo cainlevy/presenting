@@ -54,7 +54,11 @@ module Presentation
     
       def name=(val)
         self.value ||= val # don't lazy define :value, because we're about to typecast here
-        @name = val.to_s
+        if val.is_a? Symbol
+          @name = val.to_s.titleize
+        else
+          @name = val.to_s
+        end
       end
       attr_reader :name
     

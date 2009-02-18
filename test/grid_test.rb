@@ -19,13 +19,13 @@ class GridTest < Test::Unit::TestCase
     ]
     assert_equal 3, @g.fields.size, "all fields are saved"
     
-    assert_equal "a", @g.fields[0].name
+    assert_equal "A", @g.fields[0].name
     assert_equal :a, @g.fields[0].value
     
-    assert_equal "b", @g.fields[1].name
+    assert_equal "B", @g.fields[1].name
     assert_equal "foo", @g.fields[1].value
     
-    assert_equal "c", @g.fields[2].name
+    assert_equal "C", @g.fields[2].name
     assert_equal "bar", @g.fields[2].value
   end
 
@@ -44,9 +44,9 @@ class GridTest < Test::Unit::TestCase
     @render = @g.render
     assert_select "#foo" do
       assert_select "thead" do
-        assert_select "th", "a"
-        assert_select "th", "b"
-        assert_select "th", "c"
+        assert_select "th", "A"
+        assert_select "th", "B"
+        assert_select "th", "C"
       end
     end
   end
@@ -106,7 +106,7 @@ class GridFieldTest < Test::Unit::TestCase
 
   def test_assigning_a_symbol_name
     @f.name = :foo
-    assert_equal "foo", @f.name, "name is typecast to a string"
+    assert_equal "Foo", @f.name, "name is typecast to a string and titleized"
     assert_equal :foo, @f.value, "value is assumed to be a symbol as well"
   end
   
