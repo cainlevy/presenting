@@ -62,15 +62,13 @@ class GridRenderTest < Presentation::RenderTest
   end
 
   def test_rendering_the_title
-    assert_select "#users" do
-      assert_select "div.title", "Users"
-    end
+    assert_select "#users table caption", 'Users'
   end
   
   def test_rendering_links
     @presentation.links = ['<a href="/foo" class="foo">bar</a>']
 
-    assert_select '#users ul.actions' do
+    assert_select '#users caption ul.actions' do
       assert_select 'li a.foo', 'bar'
     end
   end
