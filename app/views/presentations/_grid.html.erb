@@ -41,8 +41,14 @@
         </tr>
       <% end %>
     </tbody>
-    <tfoot>
-      <!-- pagination -->
-    </tfoot>
+    <% if @grid.paginate? %>
+      <tfoot>
+        <tr>
+          <td colspan="<%= @grid.colspan %>">
+            <%= will_paginate @grid.presentable %>
+          </td>
+        </tr>
+      </tfoot>
+    <% end %>
   </table>
 </div>

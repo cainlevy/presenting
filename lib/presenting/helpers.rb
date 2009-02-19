@@ -10,6 +10,7 @@ module Presenting
         if klass
           instance = klass.new(options, &block)
           instance.presentable = object
+          instance.controller = controller
           instance.render
         elsif respond_to?(method_name = "present_#{presentation}")
           send(method_name, object, options)

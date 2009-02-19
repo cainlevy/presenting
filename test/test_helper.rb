@@ -9,6 +9,8 @@ require 'actionpack'
 require 'action_controller'
 require 'action_view'
 require 'mocha'
+require 'will_paginate'
+WillPaginate.enable_actionpack
 
 PLUGIN_ROOT = File.join(File.dirname(__FILE__), '..')
 
@@ -19,12 +21,28 @@ ActionController::Base.view_paths << File.join(PLUGIN_ROOT, 'app', 'views')
 ActiveSupport::Dependencies.load_paths << File.join(PLUGIN_ROOT, 'app', 'controllers')
 $LOAD_PATH.unshift File.join(PLUGIN_ROOT, 'app', 'controllers')
 
-# load the code
+# set up the asset routes, and an extra resource for tests that generate normal routes
 require File.join(PLUGIN_ROOT, 'config', 'routes')
+ActionController::Routing::Routes.draw do |map| map.resources :users end
+
+# load the code
 require File.join(PLUGIN_ROOT, 'init')
+
+class TestController < ActionController::Base
+  attr_accessor :request, :response, :params
+
+  def initialize
+    @request = ActionController::TestRequest.new
+    @response = ActionController::TestResponse.new
+    
+    @params = {}
+    send(:initialize_current_url)
+  end
+end
 
 # a way to customize syntax for our tests
 class Presentation::Test < Test::Unit::TestCase
+  # TODO: create a shoulda-like context/setup/should syntax
   def default_test; end # to quiet Test::Unit
 end
 

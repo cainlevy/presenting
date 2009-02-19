@@ -49,6 +49,16 @@ class GridTest < Presentation::Test
       @g.record_links = ['<a href="/foo">foo</a>']
     end
   end
+  
+  def test_arrays_do_not_paginate
+    @g.presentable = []
+    assert !@g.paginate?
+  end
+  
+  def test_paginated_collections_will_paginate
+    @g.presentable = WillPaginate::Collection.new(1, 1)
+    assert @g.paginate?
+  end
 end
 
 class GridRenderTest < Presentation::RenderTest
@@ -59,6 +69,8 @@ class GridRenderTest < Presentation::RenderTest
       stub('user', :name => 'bar', :email => 'bar@example.com')
     ]
     @presentation.presentable = @records
+    @presentation.controller = TestController.new
+    @presentation.controller.params = {:controller => 'users', :action => 'index'} # WillPaginate only operates properly within a request
   end
 
   def test_rendering_the_title
@@ -114,9 +126,14 @@ class GridRenderTest < Presentation::RenderTest
       assert_select 'td:nth-child(2)', '&'
     end
   end
+  
+  def test_rendering_with_pagination
+    @presentation.presentable = WillPaginate::Collection.new(1, 1, 2)
+    assert_select '#users tfoot .pagination'
+  end
 end
 
-class GriedFieldSetTest < Presentation::Test
+class GridFieldSetTest < Presentation::Test
 
   def setup
     @f = Presentation::Grid::FieldSet.new

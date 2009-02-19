@@ -30,8 +30,12 @@ module Presentation
       @fields ||= FieldSet.new
     end
     
-    def iname; :grid end
+    def colspan
+      @colspan ||= fields.size + (record_links.empty? ? 0 : 1)
+    end
     
+    def iname; :grid end
+
     class FieldSet < Array
       # Accepts field specifications to varying degrees of detail.
       # If you assign a Symbol or String, that will be the field's :name and :value.
@@ -151,17 +155,9 @@ module Presentation
     def record_links
       @record_links ||= []
     end
-
-
-    # operates on an object collection
-    # - Array
-    # - WillPaginate
-    # renders Hash or ActiveRecord
-    # - need Hash adapter to allow dot syntax
-    # title
-    # id (defaults based on title)
-    # custom css classes for rows and/or cells
-    # required options: id, fields
-    # inspect an ActiveRecord class to default field set? just make fields= take an activerecord class?
+    
+    def paginate?
+      defined? WillPaginate and presentable.is_a?(WillPaginate::Collection)
+    end
   end
 end
