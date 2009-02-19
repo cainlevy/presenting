@@ -1,5 +1,9 @@
 module Presenting
   module Helpers
+    def presentation_stylesheets(*args)
+      stylesheet_link_tag args.map{|i| presentation_stylesheet_path(i)}
+    end
+
     def present(object, presentation = nil, options = {}, &block)
       if presentation
         klass = "Presentation::#{presentation.to_s.camelcase}".constantize rescue nil
