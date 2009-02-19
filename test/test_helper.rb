@@ -15,11 +15,11 @@ PLUGIN_ROOT = File.join(File.dirname(__FILE__), '..')
 # prepare for autoloading
 ActiveSupport::Dependencies.load_paths << File.join(PLUGIN_ROOT, 'lib')
 $LOAD_PATH.unshift File.join(PLUGIN_ROOT, 'lib')
-
-# load the code -- should be automatically done in an application from rails 2.3+
 ActionController::Base.view_paths << File.join(PLUGIN_ROOT, 'app', 'views')
 ActiveSupport::Dependencies.load_paths << File.join(PLUGIN_ROOT, 'app', 'controllers')
 $LOAD_PATH.unshift File.join(PLUGIN_ROOT, 'app', 'controllers')
+
+# load the code
 require File.join(PLUGIN_ROOT, 'config', 'routes')
 require File.join(PLUGIN_ROOT, 'init')
 
