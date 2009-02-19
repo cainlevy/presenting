@@ -1,8 +1,13 @@
 module Presentation
+  # TODO: ability to render a hash
+  # TODO: custom css classes for rows and/or cells
+  # TODO: document or complain for required options -- id and fields
+  # TODO: make fields= accept an ActiveRecord::Base.columns array for a default field set
   class Grid < Base
-    # The id for this presentation.
+    # The id for this presentation. Required.
     attr_accessor :id
     
+    # The display title for this presentation. Will default based on the id.
     attr_writer :title
     def title
       @title ||= self.id.titleize
@@ -83,6 +88,7 @@ module Presentation
       end
       
       # whether html should be sanitize. right now this actually means html escaping.
+      # consider: by default, do not sanitize if value is a String?
       attr_writer :sanitize
       def sanitize?
         unless defined? @sanitize
@@ -97,7 +103,7 @@ module Presentation
 
       # TODO: discover "type" from data class (ActiveRecord) if available
       # TODO: decorate a Hash object so type is specifiable there as well
-      # PLAN: type should determine how a field renders. custom types for custom renders.
+      # PLAN: type should determine how a field renders. custom types for custom renders. this should be the second option to present().
       attr_accessor :type
       
       # PLAN: a field's description would appear in the header column, perhaps only visibly in a tooltip
@@ -108,7 +114,6 @@ module Presentation
       
       # PLAN: any field may be linked. this would happen after :value and :type.
       attr_accessor :link
-
     end
 
     # Links are an area where I almost made the mistake of too much configuration. Presentations are configured in the view,
