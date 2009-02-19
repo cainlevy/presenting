@@ -50,6 +50,10 @@ class Presenting::HelpersTest < ActionView::TestCase
     assert_equal "<span>hello world</span>", present('hello world', :in_a_span)
   end
 
+  def test_presenting_a_symbol_represents_a_nil_object
+    assert_equal "<span></span>", present(:in_a_span)
+  end
+
   def test_presenting_a_named_presentation
     self.expects(:controller).returns(TestController.new)
     Presentation::Grid.any_instance.expects(:render)

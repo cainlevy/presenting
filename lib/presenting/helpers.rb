@@ -55,6 +55,9 @@ module Presenting
         when Date, Time, DateTime
         object.to_s :long
         
+        when Symbol
+        present(nil, object)
+        
         else
         object.to_s
       end 
