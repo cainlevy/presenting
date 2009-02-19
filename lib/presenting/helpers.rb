@@ -1,7 +1,7 @@
 module Presenting
   module Helpers
     def presentation_stylesheets(*args)
-      stylesheet_link_tag args.map{|i| presentation_stylesheet_path(i)}
+      stylesheet_link_tag presentation_stylesheet_path(args.sort.join(','))
     end
 
     def present(object, presentation = nil, options = {}, &block)
