@@ -50,7 +50,7 @@ class Presenting::HelpersTest < ActionView::TestCase
     assert_equal "<span>hello world</span>", present('hello world', :in_a_span)
   end
 
-  def test_presenting_a_symbol_represents_a_nil_object
+  def test_presenting_a_symbol
     assert_equal "<span></span>", present(:in_a_span)
   end
 

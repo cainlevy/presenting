@@ -4,7 +4,15 @@ module Presenting
       stylesheet_link_tag presentation_stylesheet_path(args.sort.join(','))
     end
 
-    def present(object, presentation = nil, options = {}, &block)
+    def present(*args, &block)
+      options = args.length > 1 ? args.extract_options! : {}
+      
+      if args.first.is_a? Symbol
+        object, presentation = nil, args.first
+      else
+        object, presentation = args.first, args.second
+      end
+
       if presentation
         klass = "Presentation::#{presentation.to_s.camelcase}".constantize rescue nil
         if klass
@@ -54,9 +62,6 @@ module Presenting
         
         when Date, Time, DateTime
         object.to_s :long
-        
-        when Symbol
-        present(nil, object)
         
         else
         object.to_s
