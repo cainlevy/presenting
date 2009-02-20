@@ -6,6 +6,10 @@
   border-collapse: collapse;
 }
 
+.presentation-grid table {
+  width: 100%;
+}
+
 .presentation-grid caption {
   text-align: left;
   font-weight: bold;
