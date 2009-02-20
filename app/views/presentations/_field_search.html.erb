@@ -3,7 +3,7 @@
     <% @search.fields.each do |field| %>
       <fieldset>
         <label><%= field.name %></label>
-        <%= text_field_tag "search[#{field.param}][value]", (params[:search][field.param][:value] rescue '') %>
+        <%= present(field, "#{field.type}_search", :name => "search[#{field.param}][value]") %>
       </fieldset>
     <% end %>
     <input type="submit" value="Search" />

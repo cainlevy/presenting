@@ -1,6 +1,4 @@
 module Presentation
-  # TODO: configurable list of searchable fields
-  # TODO: for each field, provide a search interface option (text (default), time, list, boolean, etc.)
   class FieldSearch < Base
     # This method supports the configuration-on-initialization paradigm. It makes:
     #   present = Presentation::FieldSearch.new(:fields => [
@@ -57,7 +55,7 @@ module Presentation
       
       # the type of search interface for this field. supported options:
       # * :text     (default)
-      # * :boolean  [planned]
+      # * :checkbox
       # * :time     [planned]
       # * :list     [planned]
       def type

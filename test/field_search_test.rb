@@ -94,4 +94,16 @@ class FieldSearchRenderingTest < Presentation::RenderTest
     @presentation.controller.params[:search] = {'foo' => {:value => 'bar'}}
     assert_select "form input[type=text][name='search[foo][value]'][value=bar]"
   end
+  
+  def test_rendering_a_checkbox_field
+    @presentation.fields << {:foo => :checkbox}
+    assert_select "form input[type=checkbox][name='search[foo][value]'][value=1]"
+  end
+  
+  def test_rendering_a_checkbox_field_with_existing_value
+    @presentation.fields << {:foo => :checkbox}
+    @presentation.controller.params[:search] = {'foo' => {:value => '1'}}
+
+    assert_select "form input[type=checkbox][name='search[foo][value]'][value=1][checked=checked]"
+  end
 end

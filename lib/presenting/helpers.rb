@@ -3,7 +3,7 @@ module Presenting
     def presentation_stylesheets(*args)
       stylesheet_link_tag presentation_stylesheet_path(args.sort.join(','))
     end
-
+    
     def present(*args, &block)
       options = args.length > 1 ? args.extract_options! : {}
       
@@ -30,6 +30,18 @@ module Presenting
       else
         present_by_class(object)
       end
+    end
+    
+    # presents a text search widget for the given field (a Presentation::FieldSearch::Field, probably)
+    def present_text_search(field, options = {})
+      current_value = (params[:search][field.param][:value] rescue nil)
+      text_field_tag options[:name], h(current_value)
+    end
+    
+    # presents a checkbox search widget for the given field (a Presentation::FieldSearch::Field, probably)
+    def present_checkbox_search(field, options = {})
+      current_value = (params[:search][field.param][:value] rescue nil)
+      check_box_tag options[:name], '1', current_value == '1'
     end
     
     protected
