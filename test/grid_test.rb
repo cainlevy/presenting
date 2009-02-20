@@ -70,7 +70,7 @@ class GridRenderTest < Presentation::RenderTest
     ]
     @presentation.presentable = @records
     @presentation.controller = TestController.new
-    @presentation.controller.params = {:controller => 'users', :action => 'index'} # WillPaginate only operates properly within a request
+    @presentation.controller.params = {:controller => 'users', :action => 'index'} # WillPaginate reuses existing params
   end
 
   def test_rendering_the_title
