@@ -1,5 +1,5 @@
 class Presentation::AssetsController < ActionController::Base
-  # TODO: page caching
+  caches_page :stylesheet, :javascript
 
   def stylesheet
     dir = asset_path(:stylesheets)
