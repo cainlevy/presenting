@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/test_helper'
 
-class GridTest < Presentation::Test
+class GridTest < Presenting::Test
   def setup
     @g = Presentation::Grid.new
   end
@@ -133,7 +133,7 @@ class GridRenderTest < Presentation::RenderTest
   end
 end
 
-class GridFieldSetTest < Presentation::Test
+class GridFieldSetTest < Presenting::Test
 
   def setup
     @f = Presentation::Grid::FieldSet.new
@@ -159,7 +159,7 @@ class GridFieldSetTest < Presentation::Test
 
 end
 
-class GridFieldTest < Presentation::Test
+class GridFieldTest < Presenting::Test
 
   def setup
     @f = Presentation::Grid::Field.new

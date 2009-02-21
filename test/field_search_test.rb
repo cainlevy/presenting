@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/test_helper'
 
-class FieldSearchTest < Presentation::Test
+class FieldSearchTest < Presenting::Test
   def setup
     @s = Presentation::FieldSearch.new
   end
@@ -28,7 +28,7 @@ class FieldSearchTest < Presentation::Test
   end
 end
 
-class FieldSearchFieldSetTest < Presentation::Test
+class FieldSearchFieldSetTest < Presenting::Test
 
   def setup
     @f = Presentation::FieldSearch::FieldSet.new
@@ -53,7 +53,7 @@ class FieldSearchFieldSetTest < Presentation::Test
   end
 end
 
-class FieldSearchFieldTest < Presentation::Test
+class FieldSearchFieldTest < Presenting::Test
   def setup
     @f = Presentation::FieldSearch::Field.new
   end

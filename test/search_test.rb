@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/test_helper'
 
-class SearchTest < Presentation::Test
+class SearchTest < Presenting::Test
   def setup
     @s = Presentation::Search.new
   end

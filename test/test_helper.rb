@@ -41,13 +41,13 @@ class TestController < ActionController::Base
 end
 
 # a way to customize syntax for our tests
-class Presentation::Test < Test::Unit::TestCase
+class Presenting::Test < Test::Unit::TestCase
   # TODO: create a shoulda-like context/setup/should syntax
   def default_test; end # to quiet Test::Unit
 end
 
 # inheriting tests should target rendering behavior given certain configurations
-class Presentation::RenderTest < Presentation::Test
+class Presentation::RenderTest < Presenting::Test
   include ActionController::Assertions::SelectorAssertions
 
   protected

@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/test_helper'
 
-class ConfigurableTest < Presentation::Test
+class ConfigurableTest < Presenting::Test
   class ConfigurableUser
     include Presenting::Configurable
     attr_accessor :first_name
