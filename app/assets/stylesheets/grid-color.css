@@ -1,0 +1,55 @@
+.presentation-grid a {
+  color: #06c;
+}
+
+.presentation-grid {
+  font-family: sans-serif;
+}
+
+.presentation-grid thead th {
+  border-bottom: 2px solid #aaa;
+  font-weight: normal;
+  color: #666;
+}
+
+.presentation-grid tbody tr {
+  border-bottom: 1px solid #c5dbf7;
+}
+
+.presentation-grid tbody tr.even {
+  background-color: #e6f2ff;
+}
+
+.presentation-grid tfoot .pagination {
+  margin-top: 0.5em;
+}
+
+.presentation-grid tfoot .pagination a {
+  text-decoration: none;
+}
+
+.presentation-grid tfoot .pagination .prev_page,
+.presentation-grid tfoot .pagination .next_page {
+  padding: 0.1em 0.5em;
+  background-color: #eee;
+  border: 1px solid #e5e5e5;
+}
+
+.presentation-grid tfoot .pagination a.prev_page:hover,
+.presentation-grid tfoot .pagination a.next_page:hover {
+  background-color: #e6f2ff;
+  border-color: #c5dbf7;
+}
+
+.presentation-grid tfoot .pagination .prev_page {
+  margin-right: 0.7em;
+}
+
+.presentation-grid tfoot .pagination .next_page {
+  margin-left: 0.7em;
+}
+
+.presentation-grid tfoot .pagination .current {
+  padding: 0.1em 0.5em;
+  border: 1px solid #e5e5e5;
+}

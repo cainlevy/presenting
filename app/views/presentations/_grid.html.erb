@@ -23,7 +23,7 @@
     </thead>
     <tbody>
       <% @grid.presentable.each do |record| %>
-        <tr>
+        <tr class="<%= cycle('odd', 'even') %>">
           <% @grid.fields.each do |field| %>
             <td>
               <%= present(field.value_from record) %>
