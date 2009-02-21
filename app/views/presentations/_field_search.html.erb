@@ -6,6 +6,9 @@
         <%= present(field, "#{field.type}_search", :name => "search[#{field.param}][value]") %>
       </fieldset>
     <% end %>
-    <input type="submit" value="Search" />
+    <fieldset>
+      <label>&nbsp;</label>
+      <input type="submit" value="Search" class="submit" />
+    </fieldset>
   <% end %>
 </div>
