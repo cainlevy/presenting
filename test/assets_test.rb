@@ -4,6 +4,10 @@ require 'action_controller/integration'
 
 class Presentation::AssetsControllerTest < ActionController::TestCase
 
+  def setup
+    ActionController::Base.perform_caching = false
+  end
+
   # stylesheet
 
   def test_stylesheet_routing_recognition
