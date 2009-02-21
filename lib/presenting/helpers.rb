@@ -4,6 +4,10 @@ module Presenting
       stylesheet_link_tag presentation_stylesheet_path(args.sort.join(','))
     end
     
+    def presentation_javascript(*args)
+      javascript_include_tag presentation_javascript_path(args.sort.join(','))
+    end
+    
     def present(*args, &block)
       options = args.length > 1 ? args.extract_options! : {}
       
