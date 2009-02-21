@@ -10,7 +10,17 @@
   float: left;
 }
 
-.presentation-search fieldset label {
-  display: block;
+/* for overlabels (requires javascript) */
+
+.presentation-search fieldset {
+  position: relative;
 }
 
+.presentation-search fieldset label.overlabel {
+  display: block;
+  position: absolute;
+  top: 0.2em;
+  left: 0.5em;
+  z-index: 1;
+  cursor: text;
+}
