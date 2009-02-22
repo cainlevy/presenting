@@ -8,6 +8,6 @@ $('.presentation-search fieldset label').livequery(function() {
   var hide_label = function() { label.css('text-indent', '-1000px') };
   var show_label = function() { this.value || label.css('text-indent', '0px') };
   
-  $(field).focus(hide_label).blur(show_label).each(show_label);
+  $(field).focus(hide_label).blur(show_label).each(hide_label).each(show_label);
   $(label).click(function() {field.focus()});
 });
