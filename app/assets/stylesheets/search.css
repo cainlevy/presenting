@@ -10,6 +10,11 @@
   float: left;
 }
 
+.presentation-search fieldset label {
+  font-weight: normal;
+  display: inline;
+}
+
 /* for overlabels (requires javascript) */
 
 .presentation-search fieldset {

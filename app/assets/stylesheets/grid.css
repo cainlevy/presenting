@@ -19,10 +19,12 @@
 .presentation-grid th {
   padding: 0.2em 0.5em 0em 0.2em;
   text-align: left;
+  vertical-align: bottom;
 }
 
 .presentation-grid td {
   padding: 0.2em 0.5em 0.2em 0.2em;
+  vertical-align: top;
 }
 
 .presentation-grid ul.actions {
