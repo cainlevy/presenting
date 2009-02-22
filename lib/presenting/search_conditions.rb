@@ -108,6 +108,9 @@ module Presenting
         when :ends_with
           self.operator = 'LIKE ?'
           self.bind_pattern = '%?'
+        when :contains
+          self.operator = 'LIKE ?'
+          self.bind_pattern = '%?%'
         when :null
           self.operator = 'IS NULL'
         when :not_null
