@@ -127,6 +127,16 @@ class GridRenderTest < Presentation::RenderTest
     end
   end
   
+  def test_rendering_sanitized_arrays
+    @records << stub('row', :name => ['bob', '&', 'lucy'], :email => '')
+    
+    assert_select "#users tbody tr" do
+      assert_select 'td:nth-child(1)' do
+        assert_select 'ol li:nth-child(2)', '&amp;'
+      end
+    end
+  end
+  
   def test_rendering_with_pagination
     @presentation.presentable = WillPaginate::Collection.new(1, 1, 2)
     assert_select '#users tfoot .pagination'
