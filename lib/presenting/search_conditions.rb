@@ -115,6 +115,12 @@ module Presenting
           self.operator = 'IS NULL'
         when :not_null
           self.operator = 'IS NOT NULL'
+        when :true
+          self.operator = '= ?'
+          self.bind_pattern = true
+        when :false
+          self.operator = '= ?'
+          self.bind_pattern = false
         end
       end
       
@@ -139,7 +145,9 @@ module Presenting
       
       # prepares the bindable term
       def bind(term)
-        operator.include?('?') ? bind_pattern.sub('?', term) : nil
+        operator.include?('?') ?
+          (bind_pattern.is_a?(String) ? bind_pattern.sub('?', term) : bind_pattern) :
+          nil
       end
     end
   end

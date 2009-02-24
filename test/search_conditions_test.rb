@@ -69,6 +69,11 @@ class SearchConditionsTest < Presenting::Test
     @c.fields << {:b => :null}
     assert_equal ["a = ?", 'foo'], @c.to_conditions({'a' => {:value => 'foo'}}, :field)
   end
+
+  def test_field_conditions_with_true_field
+    @c.fields << {:a => :true}
+    assert_equal ["a = ?", true], @c.to_conditions({'a' => {:value => '1'}}, :field)
+  end
 end
 
 class SearchConditionsFieldTest < Presenting::Test
