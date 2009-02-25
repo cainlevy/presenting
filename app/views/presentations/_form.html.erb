@@ -1,8 +1,8 @@
 <% form_for @form.presentable, :url => @form.url, :method => @form.method do |f| %>
   <% @form.fields.each do |field| %>
     <fieldset>
-      <%= f.label field %>
-      <%= f.text_field field %>
+      <%= f.label field.label %>
+      <%= f.text_field field.name %>
     </fieldset>
   <% end %>
   <%= f.submit 'Save' %>

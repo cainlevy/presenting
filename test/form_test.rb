@@ -14,6 +14,30 @@ class FormTest < Presenting::Test
     @f.presentable = stub('record', :new_record? => false)
     assert_equal :put, @f.method
   end
+  
+  def test_adding_a_field_by_name
+    @f.fields = [:a]
+    
+    assert_equal :a, @f.fields[0].name
+    assert_equal 'A', @f.fields[0].label
+    assert_equal :text, @f.fields[0].type
+  end
+  
+  def test_adding_a_field_by_name_and_type
+    @f.fields = [{:b => :boolean}]
+    
+    assert_equal :b, @f.fields[0].name
+    assert_equal 'B', @f.fields[0].label
+    assert_equal :boolean, @f.fields[0].type
+  end
+  
+  def test_adding_a_field_by_name_and_options
+    @f.fields = [{:foo => {:label => "Foo Bar", :type => :select}}]
+
+    assert_equal :foo, @f.fields[0].name
+    assert_equal 'Foo Bar', @f.fields[0].label
+    assert_equal :select, @f.fields[0].type
+  end
 end
 
 class FormRenderingTest < Presentation::RenderTest

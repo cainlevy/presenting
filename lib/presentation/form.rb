@@ -1,16 +1,17 @@
 module Presentation
   class Form < Base
     # TODO
-    # - field type (select, checkbox, recordselect, calendar, text area, etc.)
-    # - label
+    # - field type (select, text area, text, checkbox, recordselect, calendar, etc.)
     # - example / description / help text
     # - nested fields
     # - grouped fields
     def fields
-      @fields ||= []
+      @fields ||= Presenting::FieldSet.new(Field, :name, :type)
     end
-    def fields=(val)
-      @fields = val
+    def fields=(args)
+      args.each do |field|
+        fields << field
+      end
     end
     
     def url
@@ -22,6 +23,22 @@ module Presentation
       @method ||= presentable.new_record? ? :post : :put
     end
     attr_writer :method
+
+    class Field
+      include Presenting::Configurable
+      
+      def label
+        @label ||= name.to_s.titleize
+      end
+      attr_writer :label
+      
+      attr_accessor :name
+      
+      def type
+        @type ||= :text
+      end
+      attr_writer :type
+    end
 
     def iname; :form end
 
