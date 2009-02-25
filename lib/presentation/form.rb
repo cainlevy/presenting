@@ -96,6 +96,9 @@ module Presentation
       @button ||= presentable.new_record? ? 'Create' : 'Update'
     end
     attr_writer :button
+    
+    # a passthrough for form_for's html. useful for classifying a form for ajax behavior (e.g. :html => {:class => 'ajax'})
+    attr_accessor :html
 
     class Field
       include Presenting::Configurable
