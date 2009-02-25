@@ -91,6 +91,12 @@ module Presentation
     end
     attr_writer :method
 
+    # the text on the submit button
+    def button
+      @button ||= presentable.new_record? ? 'Create' : 'Update'
+    end
+    attr_writer :button
+
     class Field
       include Presenting::Configurable
       

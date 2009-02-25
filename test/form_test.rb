@@ -15,6 +15,16 @@ class FormTest < Presenting::Test
     assert_equal :put, @f.method
   end
   
+  def test_button_for_new_record
+    @f.presentable = stub('record', :new_record? => true)
+    assert_equal 'Create', @f.button
+  end
+  
+  def test_button_for_existing_record
+    @f.presentable = stub('record', :new_record? => false)
+    assert_equal 'Update', @f.button
+  end
+  
   def test_adding_a_field_by_name
     @f.fields = [:a]
     
