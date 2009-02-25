@@ -37,48 +37,12 @@ module Presentation
     
     # a reference to the view
     def view #:nodoc:
-      @view ||= ActionView::Base.new(ActionController::Base.view_paths, assigns_for_view, self)
+      @view ||= Presenting::View.new(ActionController::Base.view_paths, assigns_for_view, self)
     end
     
     def assigns_for_view
       {iname => self, :_request => request}
     end
     
-  end
-  
-  class Search < Base
-    # operates on a data model
-    # fields have search types
-    # one of four search types
-    # - single value
-    # - one value per field
-    # - one value/operator per field
-    # - multiple values/operators per field
-  end
-  
-  class Filter < Base
-    # like search but for filters/scopes (searches that toggle on and off w/o arguments)
-  end
-  
-  class Form < Base
-    # define fields
-    # group fields
-    # nested model attributes (in or out of a group)
-    # allow modular editing interfaces
-    # configurable builder (markup generator)
-    # - fieldset > label | div.input | div.notes
-    # - ??
-  end
-  
-  class List < Base
-    # operates on a record collection like Grid
-    # different markup (<LI> instead of <TD>)
-    # may share all the same configuration as Grid but with a different render?
-  end
-  
-  class Tree < Base
-    # operates on a record collection like Grid
-    # nesting
-    # not meant to be a full javascript-based tree control
   end
 end
