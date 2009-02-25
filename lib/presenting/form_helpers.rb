@@ -1,7 +1,10 @@
 module Presenting::FormHelpers
-  # TODO: eventually this will be smarter and able to pick an intelligent type all on its own
   def present(field)
     send("present_#{field.type}_input", field)
+  end
+  
+  def present_readonly_input(field)
+    text_field field.name, :disabled => true
   end
   
   def present_string_input(field)
