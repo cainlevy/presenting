@@ -10,22 +10,22 @@ class GridTest < Presenting::Test
     assert_equal "Something Or Other", @g.title
   end
 
-  def test_adding_multiple_fields
-    @g.fields = [
-      :a,
-      {:b => "foo"},
-      {:c => {:value => "bar"}}
-    ]
-    assert_equal 3, @g.fields.size, "all fields are saved"
-    
-    assert_equal "A", @g.fields[0].name
-    assert_equal :a, @g.fields[0].value
-    
-    assert_equal "B", @g.fields[1].name
-    assert_equal "foo", @g.fields[1].value
-    
-    assert_equal "C", @g.fields[2].name
-    assert_equal "bar", @g.fields[2].value
+  def test_adding_a_field_by_name
+    @g.fields = ["foo"]
+    assert_equal "foo", @g.fields.first.name, "name is stringified"
+    assert_equal "foo", @g.fields.first.value, "value is assumed to be a method"
+  end
+  
+  def test_adding_a_field_by_name_and_value
+    @g.fields = [{"foo" => :bar}]
+    assert_equal "foo", @g.fields.first.name, "key is name"
+    assert_equal :bar, @g.fields.first.value, "value is value"
+  end
+  
+  def test_adding_a_field_by_name_and_options
+    @g.fields = [{"foo" => {:value => :bar}}]
+    assert_equal "foo", @g.fields.first.name, "key is name"
+    assert_equal :bar, @g.fields.first.value, "value is found and saved"
   end
   
   def test_adding_links_as_strings
@@ -141,32 +141,6 @@ class GridRenderTest < Presentation::RenderTest
     @presentation.presentable = WillPaginate::Collection.new(1, 1, 2)
     assert_select '#users tfoot .pagination'
   end
-end
-
-class GridFieldSetTest < Presenting::Test
-
-  def setup
-    @f = Presentation::Grid::FieldSet.new
-  end
-
-  def test_adding_a_field_by_name
-    @f << "foo"
-    assert_equal "foo", @f.first.name, "name is stringified"
-    assert_equal "foo", @f.first.value, "value is assumed to be a method"
-  end
-  
-  def test_adding_a_field_by_name_and_value
-    @f << {"foo" => :bar}
-    assert_equal "foo", @f.first.name, "key is name"
-    assert_equal :bar, @f.first.value, "value is value"
-  end
-  
-  def test_adding_a_field_by_name_and_options
-    @f << {"foo" => {:value => :bar}}
-    assert_equal "foo", @f.first.name, "key is name"
-    assert_equal :bar, @f.first.value, "value is found and saved"
-  end
-
 end
 
 class GridFieldTest < Presenting::Test

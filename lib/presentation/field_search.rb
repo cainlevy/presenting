@@ -20,20 +20,7 @@ module Presentation
     end
     
     def fields
-      @fields ||= FieldSet.new
-    end
-    
-    class FieldSet < Array
-      def <<(field)
-        if field.is_a?(Hash)
-          k, v = *field.to_a.first
-          opts = v.is_a?(Hash) ? v : {:type => v}
-          opts[:param] = k
-        else
-          opts = {:param => field}
-        end
-        super Field.new(opts)
-      end
+      @fields ||= Presenting::FieldSet.new(Field, :param, :type)
     end
     
     class Field

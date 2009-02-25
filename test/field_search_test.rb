@@ -5,51 +5,22 @@ class FieldSearchTest < Presenting::Test
     @s = Presentation::FieldSearch.new
   end
 
-  def test_adding_complex_field_setup
-    @s.fields = [
-      :a,
-      {:b => :boolean},
-      {"Foo Bar" => {:type => :time}}
-    ]
-    
-    assert_equal 3, @s.fields.size
-
-    assert_equal 'A', @s.fields[0].name
-    assert_equal 'a', @s.fields[0].param
-    assert_equal :text, @s.fields[0].type
-    
-    assert_equal 'B', @s.fields[1].name
-    assert_equal 'b', @s.fields[1].param
-    assert_equal :boolean, @s.fields[1].type
-    
-    assert_equal 'Foo Bar', @s.fields[2].name
-    assert_equal 'foo_bar', @s.fields[2].param
-    assert_equal :time, @s.fields[2].type
-  end
-end
-
-class FieldSearchFieldSetTest < Presenting::Test
-
-  def setup
-    @f = Presentation::FieldSearch::FieldSet.new
-  end
-
   def test_adding_a_field_by_name
-    @f << :foo
-    assert_equal "Foo", @f.first.name
-    assert_equal :text, @f.first.type
+    @s.fields = [:foo]
+    assert_equal "Foo", @s.fields.first.name
+    assert_equal :text, @s.fields.first.type
   end
   
   def test_adding_a_field_by_name_and_type
-    @f << {"foo" => :bar}
-    assert_equal "foo", @f.first.name
-    assert_equal :bar, @f.first.type
+    @s.fields = [{"foo" => :bar}]
+    assert_equal "foo", @s.fields.first.name
+    assert_equal :bar, @s.fields.first.type
   end
   
   def test_adding_a_field_by_name_and_options
-    @f << {"foo" => {:type => :bar}}
-    assert_equal "foo", @f.first.name
-    assert_equal :bar, @f.first.type
+    @s.fields = [{"foo" => {:type => :bar}}]
+    assert_equal "foo", @s.fields.first.name
+    assert_equal :bar, @s.fields.first.type
   end
 end
 

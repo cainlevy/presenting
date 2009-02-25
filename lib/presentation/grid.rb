@@ -32,7 +32,7 @@ module Presentation
     end
     
     def fields
-      @fields ||= FieldSet.new
+      @fields ||= Presenting::FieldSet.new(Field, :name, :value)
     end
     
     def colspan
@@ -41,23 +41,6 @@ module Presentation
     
     def iname; :grid end
 
-    class FieldSet < Array
-      # Accepts field specifications to varying degrees of detail.
-      # If you assign a Symbol or String, that will be the field's :name and :value.
-      # If you assign a Hash with one key/value pair, the key will be the :name
-      # If you assign a Hash, the value may either be another Hash of options or the :value itself.
-      def <<(field)
-        if field.is_a? Hash
-          k, v = *field.to_a.first
-          opts = v.is_a?(Hash) ? v : {:value => v}
-          opts[:name] = k
-        else
-          opts = {:name => field}
-        end
-        super Field.new(opts)
-      end
-    end
-    
     class Field
       include Presenting::Configurable
     
