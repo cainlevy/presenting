@@ -20,7 +20,7 @@ class FormTest < Presenting::Test
     
     assert_equal :a, @f.fields[0].name
     assert_equal 'A', @f.fields[0].label
-    assert_equal :text, @f.fields[0].type
+    assert_equal :string, @f.fields[0].type
   end
   
   def test_adding_a_field_by_name_and_type
@@ -66,13 +66,87 @@ class FormRenderingTest < Presentation::RenderTest
     @presentation.controller = TestController.new
   end
   
-  def test_rendering_text_fields
+  def test_rendering_a_string_field
     @presentation.presentable = User.new(:name => 'bob smith')
     @presentation.fields = [:name]
 
     assert_select 'form div.field' do
       assert_select 'label', 'Name'
       assert_select "input[type=text][name='user[name]'][value='bob smith']"
+    end
+  end
+  
+  def test_rendering_a_text_field
+    @presentation.presentable = User.new(:name => 'bob smith')
+    @presentation.fields = [{:name => :text}]
+    
+    assert_select 'form div.field' do
+      assert_select 'label', 'Name'
+      assert_select "textarea[name='user[name]']", 'bob smith'
+    end
+  end
+  
+  def test_rendering_a_password_field
+    @presentation.presentable = User.new(:name => 'bob smith')
+    @presentation.fields = [{:name => :password}]
+    
+    assert_select 'form div.field' do
+      assert_select 'label', 'Name'
+      assert_select "input[type=password][name='user[name]'][value='bob smith']"
+    end
+  end
+  
+  def test_rendering_a_boolean_field
+    @presentation.presentable = User.new(:suspended => false, :registered => true)
+    @presentation.fields = [{:suspended => :boolean}, {:registered => :boolean}]
+
+    assert_select 'form div.field:nth-of-type(1)' do
+      assert_select 'label', 'Suspended'
+      assert_select "input[type=checkbox][name='user[suspended]']"
+    end
+    assert_select 'form div.field:nth-of-type(2)' do
+      assert_select 'label', 'Registered'
+      assert_select "input[type=checkbox][name='user[registered]'][checked=checked]"
+    end
+  end
+  
+  def test_rendering_a_dropdown_field
+    @presentation.presentable = User.new(:prefix => 'mr')
+    @presentation.fields = [{:prefix => {:type => :dropdown, :type_options => [['Mr.', 'mr'], ['Mrs.', 'mrs']]}}]
+    
+    assert_select 'form div.field' do
+      assert_select 'label', 'Prefix'
+      assert_select "select[name='user[prefix]']" do
+        assert_select "option[value=mr][selected=selected]", "Mr."
+        assert_select "option[value=mrs]", "Mrs."
+      end
+    end
+  end
+
+  def test_rendering_a_radios_field
+    @presentation.presentable = User.new(:prefix => 'mr')
+    @presentation.fields = [{:prefix => {:type => :radios, :type_options => [['Mr.', 'mr'], ['Mrs.', 'mrs']]}}]
+    
+    assert_select 'form div.field' do
+      assert_select 'label', 'Prefix'
+      assert_select "label[for=user_prefix_mr]", "Mr."
+      assert_select "input[type=radio][name='user[prefix]'][value=mr][checked=checked]"
+      assert_select "label[for=user_prefix_mrs]", "Mrs."
+      assert_select "input[type=radio][name='user[prefix]'][value=mrs]"
+    end
+  end
+
+  def test_rendering_a_multi_select_field
+    @presentation.presentable = User.new(:role_ids => [1,3])
+    @presentation.fields = [{:role_ids => {:type => :multi_select, :type_options => [['A', 1], ['B', 2], ['C', 3]], :label => "Roles"}}]
+    
+    assert_select 'form div.field' do
+      assert_select 'label', 'Roles'
+      assert_select "select[name='user[role_ids][]'][multiple=multiple]" do
+        assert_select "option[value=1][selected=selected]", "A"
+        assert_select "option[value=2]", "B"
+        assert_select "option[value=3][selected=selected]", "C"
+      end
     end
   end
   
@@ -98,6 +172,17 @@ class FormRenderingTest < Presentation::RenderTest
   class User
     include Presenting::Configurable
     
+    attr_accessor :prefix
+    attr_accessor :name
+    attr_accessor :email
+    attr_accessor :registered
+    attr_accessor :suspended
+    attr_accessor :role_ids
+    
+    ##
+    ## duck typing
+    ##
+    
     def new_record=(val)
       @new_record = val
     end
@@ -105,12 +190,7 @@ class FormRenderingTest < Presentation::RenderTest
     def new_record?
       !! @new_record
     end
-    
-    attr_accessor :name
-    attr_accessor :email
-    attr_accessor :registered
-    attr_accessor :suspended
-    
+
     def id
       @id ||= new_record? ? nil : '12345'
     end

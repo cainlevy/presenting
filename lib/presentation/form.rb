@@ -105,9 +105,12 @@ module Presentation
       
       # the widget type for the field. use type_options to pass arguments to the widget.
       def type
-        @type ||= :text
+        @type ||= :string
       end
       attr_writer :type
+      
+      # unrestricted options storage for the widget type. this could be a list of options for a select, or extra configuration for a calendar widget.
+      attr_accessor :type_options
     end
 
     def iname; :form end

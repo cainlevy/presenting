@@ -7,7 +7,32 @@
       <% group.fields.each do |field| %>
         <div class="field">
           <%= f.label field.name, field.label %>
-          <%= f.text_field field.name %>
+          <%= case field.type
+            when :string
+            f.text_field field.name
+            
+            when :text
+            f.text_area field.name
+            
+            when :password
+            f.password_field field.name
+            
+            when :boolean
+            f.check_box field.name
+            
+            when :dropdown
+            select_tag "#{f.object_name}[#{field.name}]", options_for_select(field.type_options, f.object.send(field.name))
+            
+            when :multi_select
+            select_tag "#{f.object_name}[#{field.name}][]", options_for_select(field.type_options, f.object.send(field.name)), :multiple => true
+            
+            when :radios
+            field.type_options.collect do |(label, value)|
+              f.label("#{field.name}_#{value}", label) +
+              f.radio_button(field.name, value)
+            end.join
+            
+          end %>
         </div>
       <% end %>
     </fieldset>
