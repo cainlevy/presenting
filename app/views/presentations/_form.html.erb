@@ -1,8 +1,15 @@
 <% form_for @form.presentable, :url => @form.url, :method => @form.method do |f| %>
-  <% @form.fields.each do |field| %>
+  <% @form.groups.each do |group| %>
     <fieldset>
-      <%= f.label field.label %>
-      <%= f.text_field field.name %>
+      <% unless group.name.blank? %>
+        <legend><%= group.name %></legend>
+      <% end %>
+      <% group.fields.each do |field| %>
+        <div class="field">
+          <%= f.label field.name, field.label %>
+          <%= f.text_field field.name %>
+        </div>
+      <% end %>
     </fieldset>
   <% end %>
   <%= f.submit 'Save' %>

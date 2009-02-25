@@ -38,6 +38,26 @@ class FormTest < Presenting::Test
     assert_equal 'Foo Bar', @f.fields[0].label
     assert_equal :select, @f.fields[0].type
   end
+  
+  def test_fields_accessors_are_shortcuts_to_first_group
+    @f.fields = [:a]
+    assert_equal :a, @f.groups.first.fields.first.name
+    assert_equal @f.fields, @f.groups.first.fields
+  end
+  
+  def test_adding_an_unnamed_group_of_fields
+    @f.groups = [[:a]]
+    
+    assert_nil @f.groups[0].name
+    assert_equal :a, @f.groups[0].fields[0].name
+  end
+  
+  def test_adding_a_named_group_of_fields
+    @f.groups = [{"foo" => [:a]}]
+    
+    assert_equal "foo", @f.groups[0].name
+    assert_equal :a, @f.groups[0].fields[0].name
+  end
 end
 
 class FormRenderingTest < Presentation::RenderTest
@@ -50,9 +70,28 @@ class FormRenderingTest < Presentation::RenderTest
     @presentation.presentable = User.new(:name => 'bob smith')
     @presentation.fields = [:name]
 
-    assert_select 'form fieldset' do
+    assert_select 'form div.field' do
       assert_select 'label', 'Name'
       assert_select "input[type=text][name='user[name]'][value='bob smith']"
+    end
+  end
+  
+  def test_rendering_a_group_of_fields
+    @presentation.presentable = User.new
+    @presentation.groups = [
+      [:name, :email],
+      {"flags" => [:registered, :suspended]}
+    ]
+
+    assert_select "form fieldset:nth-of-type(1)" do
+      assert_select "legend", false
+      assert_select "div.field input[name='user[name]']"
+      assert_select "div.field input[name='user[email]']"
+    end
+    assert_select "form fieldset:nth-of-type(2)" do
+      assert_select "legend", "flags"
+      assert_select "div.field input[name='user[registered]']"
+      assert_select "div.field input[name='user[suspended]']"
     end
   end
   
@@ -68,6 +107,9 @@ class FormRenderingTest < Presentation::RenderTest
     end
     
     attr_accessor :name
+    attr_accessor :email
+    attr_accessor :registered
+    attr_accessor :suspended
     
     def id
       @id ||= new_record? ? nil : '12345'
