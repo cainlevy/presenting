@@ -23,6 +23,7 @@ module Presenting::FormHelpers
   def present_dropdown_input(field)
     view.select_tag "#{object_name}[#{field.name}]", view.options_for_select(field.type_options, object.send(field.name))
   end
+  alias_method :present_select_input, :present_dropdown_input
   
   def present_multi_select_input(field)
     view.select_tag "#{object_name}[#{field.name}][]", view.options_for_select(field.type_options, object.send(field.name)), :multiple => true
