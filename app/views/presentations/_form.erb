@@ -1,4 +1,4 @@
-<% form_for @form.presentable, :url => @form.url, :method => @form.method do |f| %>
+<% form_for @form.presentable, :url => @form.url, :method => @form.method, :html => @form.html do |f| %>
   <% @form.groups.each do |group| %>
     <fieldset>
       <% unless group.name.blank? %>
