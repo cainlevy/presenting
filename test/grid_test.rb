@@ -43,6 +43,14 @@ class GridTest < Presenting::Test
     @g.record_links = [proc{|record| link_to(record.name, record)}]
     assert_equal 1, @g.record_links.size
   end
+
+  def test_adding_nil_record_links
+    assert_nothing_raised do
+      # this would happen if a link sometimes did not appear
+      @g.record_links = [nil]
+    end
+    assert @g.record_links.empty?
+  end
   
   def test_adding_record_links_as_strings
     assert_raises ArgumentError do

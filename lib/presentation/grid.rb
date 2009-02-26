@@ -135,7 +135,7 @@ module Presentation
     # ]
     #
     def record_links=(set)
-      set.each do |link|
+      set.compact.each do |link|
         raise ArgumentError, "Record links must be blocks that accept the record as an argument." unless link.respond_to?(:call) and link.arity == 1
         record_links << link
       end
