@@ -1,5 +1,5 @@
 <div class="presentation-search">
-  <% form_tag params.except(:search), :method => :get do %>
+  <% form_tag @search.url, :method => :get do %>
     <% @search.fields.each do |field| %>
       <fieldset>
         <label><%= field.name %></label>
@@ -7,5 +7,6 @@
       </fieldset>
     <% end %>
     <input type="submit" value="Search" class="submit" />
+    <%= link_to 'reset', @search.url %>
   <% end %>
 </div>

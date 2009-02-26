@@ -1,5 +1,5 @@
 module Presentation
-  class FieldSearch < Base
+  class FieldSearch < Search
     # This method supports the configuration-on-initialization paradigm. It makes:
     #   present = Presentation::FieldSearch.new(:fields => [
     #     {:a => {:type => :list, :options => %w(foo bar baz)}},
@@ -50,7 +50,5 @@ module Presentation
       end
       attr_writer :type
     end
-    
-    def iname; :search end
   end
 end
