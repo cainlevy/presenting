@@ -1,0 +1,5 @@
+.DS_Store
+test/rails/log/*.log
+test/rails/db/*.db
+test/rails/db/schema.rb
+test/rails/tmp/*
