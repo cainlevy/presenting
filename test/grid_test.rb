@@ -123,6 +123,14 @@ class GridRenderTest < Presentation::RenderTest
       end
     end
   end
+  
+  def test_rendering_no_rows
+    @presentation.presentable = []
+    assert_select "#users tbody" do
+      assert_select "tr", 1
+      assert_select "tr td", "No records found."
+    end
+  end
 
   def test_rendering_sanitized_data
     @presentation.fields[0].sanitize = true

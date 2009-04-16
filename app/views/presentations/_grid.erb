@@ -22,23 +22,31 @@
       </tr>
     </thead>
     <tbody>
-      <% @grid.presentable.each do |record| %>
-        <tr class="<%= cycle('odd', 'even') %>">
-          <% @grid.fields.each do |field| %>
-            <td>
-              <%= present(field.value_from record) %>
-            </td>
-          <% end %>
-          <% unless @grid.record_links.empty? %>
-            <td>
-              <ul class="actions">
-                <% @grid.record_links.each do |link| %>
-                  <li><%= link.call(record) %></li>
-                <% end %>
-              </ul>
-            </td>
-          <% end %>
+      <% if @grid.presentable.blank? %>
+        <tr>
+          <td colspan="<%= @grid.colspan %>">
+            No records found.
+          </td>
         </tr>
+      <% else %>
+        <% @grid.presentable.each do |record| %>
+          <tr class="<%= cycle('odd', 'even') %>">
+            <% @grid.fields.each do |field| %>
+              <td>
+                <%= present(field.value_from record) %>
+              </td>
+            <% end %>
+            <% unless @grid.record_links.empty? %>
+              <td>
+                <ul class="actions">
+                  <% @grid.record_links.each do |link| %>
+                    <li><%= link.call(record) %></li>
+                  <% end %>
+                </ul>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
       <% end %>
     </tbody>
     <% if @grid.paginate? %>
