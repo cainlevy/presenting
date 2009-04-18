@@ -1,0 +1,11 @@
+<div class="presentation-details">
+  <% if @details.title %>
+  <h3><%= @details.title %></h3>
+  <% end %>
+  <dl>
+    <% @details.fields.each do |field| %>
+      <dt><%= field.name %></dt>
+      <dd><%= present(field.value_from @details.presentable) %></dd>
+    <% end %>
+  </dl>
+</div>
