@@ -25,4 +25,8 @@ class UsersController < ApplicationController
   rescue ActiveRecord::RecordInvalid
     render :action => :new
   end
+  
+  def show
+    @user = User.find(params[:id])
+  end
 end

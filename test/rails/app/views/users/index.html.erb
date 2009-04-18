@@ -4,6 +4,7 @@
   :links => [link_to('add', new_user_path)],
   :record_links => [
     proc{|r| link_to 'edit', edit_user_path(r)},
-    proc{|r| link_to 'delete', user_path(r), :method => :destroy}
+    proc{|r| link_to 'delete', user_path(r), :method => :destroy},
+    proc{|r| link_to 'show', user_path(r)}
   ]
 %>
