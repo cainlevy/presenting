@@ -1,0 +1,10 @@
+.presentation-details dt {
+  font-weight: bold;
+}
+
+.presentation-details dd {
+  margin-left: 0;
+  padding-bottom: 0.5em;
+  border-bottom: 1px dotted;
+  margin-bottom: 0.5em;
+}

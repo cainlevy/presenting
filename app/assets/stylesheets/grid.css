@@ -51,6 +51,10 @@
   text-decoration: underline;
 }
 
+.presentation-grid ul.actions li a {
+  outline: none;
+}
+
 .presentation-grid caption ul.actions {
   margin-top: -1.2em;
   margin-right: 0.5em;
