@@ -41,45 +41,7 @@ module Presentation
     
     def iname; :grid end
 
-    class Field
-      include Presenting::Configurable
-    
-      def name=(val)
-        self.value ||= val # don't lazy define :value, because we're about to typecast here
-        if val.is_a? Symbol
-          @name = val.to_s.titleize
-        else
-          @name = val.to_s
-        end
-      end
-      attr_reader :name
-    
-      # Where a field's value comes from. Depends heavily on the data type you provide.
-      # - String: fixed value (as provided)
-      # - Symbol: a method on the record (no arguments)
-      # - Proc: a custom block that accepts the record as an argument
-      attr_accessor :value
-      
-      def value_from(obj) #:nodoc:
-        v = case value
-          when Symbol: obj.send(value)
-          when String: value
-          when Proc:   value.call(obj)
-        end
-        
-        sanitize? ? Presenting::Sanitize.h(v) : v
-      end
-      
-      # whether html should be sanitize. right now this actually means html escaping.
-      # consider: by default, do not sanitize if value is a String?
-      attr_writer :sanitize
-      def sanitize?
-        unless defined? @sanitize
-          @sanitize = true
-        end
-        @sanitize
-      end
-
+    class Field < Presenting::Attribute
       ##
       ## Planned
       ##
@@ -87,16 +49,16 @@ module Presentation
       # TODO: discover "type" from data class (ActiveRecord) if available
       # TODO: decorate a Hash object so type is specifiable there as well
       # PLAN: type should determine how a field renders. custom types for custom renders. this should be the second option to present().
-      attr_accessor :type
+      # attr_accessor :type
       
       # PLAN: a field's description would appear in the header column, perhaps only visibly in a tooltip
-      attr_accessor :description
+      # attr_accessor :description
       
       # PLAN: discover whether a field is sortable (via SQL), but allow overrides
-      attr_accessor :sortable
+      # attr_accessor :sortable
       
       # PLAN: any field may be linked. this would happen after :value and :type.
-      attr_accessor :link
+      # attr_accessor :link
     end
 
     # Links are an area where I almost made the mistake of too much configuration. Presentations are configured in the view,
