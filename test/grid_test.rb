@@ -69,6 +69,37 @@ class GridTest < Presenting::Test
   end
 end
 
+class GridFieldTest < Presenting::Test
+  def setup
+    @f = Presentation::Grid::Field.new
+  end
+  
+  def test_default_sorting_for_field
+    @f.name = "First Name"
+    assert @f.sortable?
+    assert_equal "first_name", @f.sort_name
+  end
+  
+  def test_sortable_field
+    @f.name = "First Name"
+    @f.sortable = true
+    assert @f.sortable?
+    assert_equal "first_name", @f.sort_name
+  end
+  
+  def test_specified_sort_name
+    @f.name = "First Name"
+    @f.sortable = "foo"
+    assert @f.sortable?
+    assert_equal "foo", @f.sort_name
+  end
+  
+  def test_unsortable_field
+    @f.sortable = false
+    assert !@f.sortable?
+  end
+end
+
 class GridRenderTest < Presentation::RenderTest
   def setup
     @presentation = Presentation::Grid.new(:id => "users", :fields => [:name, :email])
@@ -156,6 +187,33 @@ class GridRenderTest < Presentation::RenderTest
   def test_rendering_with_pagination
     @presentation.presentable = WillPaginate::Collection.new(1, 1, 2)
     assert_select '#users tfoot .pagination'
+  end
+  
+  def test_rendering_sortable_columns
+    @presentation.fields.each{|f| f.sortable = true}
+    
+    assert_select "#users thead" do
+      assert_select "th a.sortable", "Name"
+      assert_select "th a.sortable", "Email"
+    end
+  end
+  
+  def test_rendering_unsortable_columns
+    @presentation.fields.each{|f| f.sortable = false}
+    
+    assert_select "#users thead" do
+      assert_select "th", "Name"
+      assert_select "th", "Email"
+    end
+  end
+  
+  def test_rendering_a_sorted_column
+    @presentation.fields.each{|f| f.sortable = true}
+    @presentation.controller.request.query_parameters = {"sort" => {'name' => 'desc'}}
+    
+    assert_select "#users thead" do
+      assert_select "th a.sortable[href='/?sort%5Bname%5D=asc']", "Name"
+    end
   end
 end
 

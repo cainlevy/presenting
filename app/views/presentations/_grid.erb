@@ -14,7 +14,13 @@
     <thead>
       <tr>
         <% @grid.fields.each do |field| %>
-          <th><%= field.name %></th>
+          <th>
+            <% if field.sortable? %>
+              <%= link_to field.name, field.sorted_url(request), :class => "sortable" %>
+            <% else %>
+              <%= field.name %>
+            <% end %>
+          </th>
         <% end %>
         <% unless @grid.record_links.empty? %>
           <th></th>
@@ -32,7 +38,7 @@
         <% @grid.presentable.each do |record| %>
           <tr class="<%= cycle('odd', 'even') %>">
             <% @grid.fields.each do |field| %>
-              <td>
+              <td class="<%= 'sorted' if field.is_sorted?(request) %>">
                 <%= present(field.value_from record) %>
               </td>
             <% end %>

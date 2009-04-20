@@ -19,6 +19,14 @@
   border-top: 1px solid #c5dbf7;
 }
 
+.presentation-grid tbody td.sorted {
+  background-color: #e5e5e5;
+}
+
+.presentation-grid tbody tr.even td.sorted {
+  background-color: #c5dbf7;
+}
+
 .presentation-grid tfoot .pagination {
   margin-top: 0.5em;
 }

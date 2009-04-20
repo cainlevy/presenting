@@ -9,7 +9,8 @@ class UsersController < ApplicationController
     @users = User.paginate(
       :page => params[:page],
       :per_page => 2,
-      :conditions => search.to_conditions(params[:search], :field)
+      :conditions => search.to_conditions(params[:search], :field),
+      :order => Presenting::Sorting.new(:fields => [:prefix, :first_name, :last_name, :email]).to_sql(params[:sort])
     )
   end
   
