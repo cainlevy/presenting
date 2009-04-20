@@ -1,5 +1,6 @@
 ActionView::Base.class_eval { include Presenting::Helpers }
-ActionController::Base.const_set(:SearchConditions, Presenting::SearchConditions)
+ActionController::Base.const_set(:Search, Presenting::Search)
+ActionController::Base.const_set(:Sorting, Presenting::Sorting)
 ActionView::Helpers::FormBuilder.class_eval { include Presenting::FormHelpers }
 
 if defined? Rails # because tests don't define the Rails module
