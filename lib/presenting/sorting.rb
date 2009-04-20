@@ -4,9 +4,9 @@ module Presenting
     
     # I want to support two configuration formats:
     #
-    #   SearchConditions.new(:fields => [:first_name, :last_name, :email])
+    #   Sorting.new(:fields => [:first_name, :last_name, :email])
     #
-    #   SearchConditions.new(:fields => {
+    #   Sorting.new(:fields => {
     #    'name' => 'CONCAT(first_name, last_name)',
     #    'email' => 'email_address'
     #   })

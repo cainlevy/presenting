@@ -1,18 +1,18 @@
 module Presenting
-  class SearchConditions
+  class Search
     include Presenting::Configurable
 
     # I want to support three configuration formats:
     #
-    #   SearchConditions.new(:fields => [:first_name, :last_name, :email])
+    #   Search.new(:fields => [:first_name, :last_name, :email])
     #
-    #   SearchConditions.new(:fields => {
+    #   Search.new(:fields => {
     #    'first_name' => :equals,
     #    'last_name' => :begins_with,
     #    'email' => :not_null
     #   })
     #
-    #   SearchConditions.new(:fields => {
+    #   Search.new(:fields => {
     #    'fname' => {:sql => 'first_name', :pattern => :equals},
     #    'lname' => {:sql => 'last_name', :pattern => :begins_with},
     #    'email' => {:sql => 'email', :pattern => :not_null}
@@ -33,15 +33,15 @@ module Presenting
       @fields ||= FieldSet.new
     end
     
-    def to_conditions(params, type = :simple)
-      send("to_#{type}_conditions", params) unless params.blank?
+    def to_sql(params, type = :simple)
+      send("to_#{type}_sql", params) unless params.blank?
     end
     
     protected
     
     # handles a simple search where a given term is matched against a number of fields, and can match any of them.
     # this is usually presented to the user as a single "smart" search box.
-    def to_simple_conditions(term)
+    def to_simple_sql(term)
       return nil if term.blank?
       fragment = fields.map(&:fragment).join(' OR ')
       binds = fields.collect{|f| f.bind(term)}.compact
@@ -57,7 +57,7 @@ module Presenting
     #     'last_name' => {:value => 'Smith'}
     #   }
     #
-    def to_field_conditions(field_terms)
+    def to_field_sql(field_terms)
       searched_fields = fields.select{|f| field_terms[f.name] and not field_terms[f.name][:value].blank?}
 
       fragment = searched_fields.map(&:fragment).join(' AND ')
