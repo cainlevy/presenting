@@ -42,10 +42,9 @@ module Presenting
     # handles a simple search where a given term is matched against a number of fields, and can match any of them.
     # this is usually presented to the user as a single "smart" search box.
     def to_simple_sql(term)
-      return nil if term.blank?
-      fragment = fields.map(&:fragment).join(' OR ')
+      sql = fields.map(&:fragment).join(' OR ')
       binds = fields.collect{|f| f.bind(term)}.compact
-      [fragment, binds].flatten.compact
+      [sql, binds].flatten.compact
     end
     
     # handles a search setup where a user may enter a search value for any field, and anything entered must match.
@@ -60,10 +59,10 @@ module Presenting
     def to_field_sql(field_terms)
       searched_fields = fields.select{|f| field_terms[f.name] and not field_terms[f.name][:value].blank?}
 
-      fragment = searched_fields.map(&:fragment).join(' AND ')
+      sql = searched_fields.map(&:fragment).join(' AND ')
       binds = searched_fields.collect{|f| f.bind(field_terms[f.name][:value])}
       
-      [fragment, binds].flatten.compact
+      [sql, binds].flatten.compact
     end
     
     class FieldSet < Array
@@ -80,7 +79,7 @@ module Presenting
     end
     
     # TODO: a field may require extra joins when it is searched on
-    # TODO: support more than just mysql
+    # TODO: support more than just mysql (need access to a Connection for quoting and attribute conditions)
     class Field
       include Presenting::Configurable
       
@@ -121,6 +120,14 @@ module Presenting
         when :false
           self.operator = '= ?'
           self.bind_pattern = false
+        when :less_than
+          self.operator = '< ?'
+        when :less_than_or_equal_to, :not_greater_than
+          self.operator = '<= ?'
+        when :greater_than
+          self.operator = '> ?'
+        when :greater_than_or_equal_to, :not_less_than
+          self.operator = '>= ?'
         end
       end
       
