@@ -152,9 +152,32 @@ module Presenting
       
       # prepares the bindable term
       def bind(term)
-        operator.include?('?') ?
-          (bind_pattern.is_a?(String) ? bind_pattern.sub('?', term) : bind_pattern) :
-          nil
+        return nil unless operator.include?('?')
+        return bind_pattern unless bind_pattern.is_a? String
+        bind_pattern == '?' ? typecast(term) : bind_pattern.sub('?', typecast(term).to_s)
+      end
+      
+      # you can set a data type for the field, which will be used to convert
+      # parameter values. currently this is mostly useful for :time searches.
+      attr_accessor :type
+      
+      protected
+      
+      def typecast(val)
+        case type
+          when :date
+          val.is_a?(String) ?
+            (Time.zone ? Time.zone.parse(val) : Time.parse(val)).to_date :
+            val
+          
+          when :time, :datetime
+          val.is_a?(String) ?
+            (Time.zone ? Time.zone.parse(val) : Time.parse(val)) :
+            val
+          
+          else
+          val
+        end
       end
     end
   end

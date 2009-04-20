@@ -114,4 +114,14 @@ class SearchConditionsFieldTest < Presenting::Test
     @f.bind_pattern = '%?%'
     assert_equal '%foo%', @f.bind('foo')
   end
+  
+  def test_bind_with_typecast_to_date
+    @f.type = :date
+    assert_equal Time.parse('Apr 20, 2009').to_date, @f.bind('Apr 20, 2009')
+  end
+  
+  def test_bind_with_typecast_to_time
+    @f.type = :time
+    assert_equal Time.parse('Apr 20, 2009 11:00am'), @f.bind('Apr 20, 2009 11:00am')
+  end
 end
