@@ -58,11 +58,12 @@ module Presenting
     #
     def to_field_sql(field_terms)
       searched_fields = fields.select{|f| field_terms[f.name] and not field_terms[f.name][:value].blank?}
-
-      sql = searched_fields.map(&:fragment).join(' AND ')
-      binds = searched_fields.collect{|f| f.bind(field_terms[f.name][:value])}
+      unless searched_fields.empty?
+        sql = searched_fields.map(&:fragment).join(' AND ')
+        binds = searched_fields.collect{|f| f.bind(field_terms[f.name][:value])}
       
-      [sql, binds].flatten.compact
+        [sql, binds].flatten.compact
+      end
     end
     
     class FieldSet < Array
