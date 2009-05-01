@@ -7,10 +7,19 @@
   background-color: #fff;
 }
 
+.presentation-grid caption {  
+  background-color: transparent;
+}
+
+.presentation-grid thead {
+  background-color: transparent;
+}
+
 .presentation-grid thead th {
   border-bottom: 2px solid #aaa;
   font-weight: normal;
   color: #666;
+  background-color: transparent;
 }
 
 .presentation-grid tbody tr.even {
