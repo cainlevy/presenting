@@ -36,7 +36,7 @@ module Presenting
     attr_writer :sanitize
     def sanitize?
       unless defined? @sanitize
-        @sanitize = true
+        @sanitize = Presenting::Defaults.sanitize_fields
       end
       @sanitize
     end

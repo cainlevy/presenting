@@ -67,7 +67,7 @@ module Presentation
       
       # if the field is sortable at all
       def sortable?
-        self.sortable = true unless defined? @sort_name
+        self.sortable = Presenting::Defaults.grid_is_sortable unless defined? @sort_name
         !@sort_name.blank?
       end
       
