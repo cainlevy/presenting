@@ -127,7 +127,7 @@ module Presentation
     # Not only is the second example (the supported example, by the way) shorter and cleaner, it encourages the developer
     # to stay in touch with the Rails internals and therefore discourages a configuration-heavy mindset.
     def links=(set)
-      set.each do |link|
+      set.compact.each do |link|
         raise ArgumentError, "Links must be strings, such as the output of link_to()." unless link.is_a?(String)
         links << link
       end
