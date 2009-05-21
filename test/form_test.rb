@@ -70,6 +70,32 @@ class FormTest < Presenting::Test
   end
 end
 
+class FormFieldTest < Presenting::Test
+  def setup
+    @f = Presentation::Form::Field.new
+  end
+  
+  def test_default_value
+    @f.name = 'foo'
+    assert_equal :foo, @f.value
+  end
+  
+  def test_symbol_value
+    @f.value = :foo
+    assert_equal 'bar', @f.value_from(stub('record', :foo => 'bar'))
+  end
+  
+  def test_string_value
+    @f.value = 'foo'
+    assert_equal 'foo', @f.value_from(stub('record', :foo => 'bar'))
+  end
+  
+  def test_proc_value
+    @f.value = proc{|r| r.foo }
+    assert_equal 'bar', @f.value_from(stub('record', :foo => 'bar'))
+  end
+end
+
 class FormRenderingTest < Presentation::RenderTest
   def setup
     @presentation = Presentation::Form.new
@@ -86,6 +112,15 @@ class FormRenderingTest < Presentation::RenderTest
     end
   end
   
+  def test_rendering_a_string_field_with_a_custom_value
+    @presentation.presentable = User.new(:name => 'bob smith')
+    @presentation.fields << {:name => {:value => 'test'}}
+    
+    assert_select 'form div.field' do
+      assert_select "input[type=text][name='user[name]'][value='test']"
+    end
+  end
+  
   def test_rendering_a_text_field
     @presentation.presentable = User.new(:name => 'bob smith')
     @presentation.fields = [{:name => :text}]
@@ -93,6 +128,34 @@ class FormRenderingTest < Presentation::RenderTest
     assert_select 'form div.field' do
       assert_select 'label', 'Name'
       assert_select "textarea[name='user[name]']", 'bob smith'
+    end
+  end
+  
+  def test_rendering_a_text_field_with_a_custom_value
+    @presentation.presentable = User.new(:name => 'bob smith')
+    @presentation.fields << {:name => {:type => :text, :value => 'test'}}
+    
+    assert_select 'form div.field' do
+      assert_select "textarea[name='user[name]']", 'test'
+    end
+  end
+  
+  def test_rendering_a_readonly_field
+    @presentation.presentable = User.new(:name => 'bob smith')
+    @presentation.fields = [{:name => :readonly}]
+    
+    assert_select 'form div.field' do
+      assert_select 'label', 'Name'
+      assert_select "input[type=text][disabled=disabled][name='user[name]'][value='bob smith']"
+    end
+  end
+  
+  def test_rendering_a_readonly_field_with_a_custom_value
+    @presentation.presentable = User.new(:name => 'bob smith')
+    @presentation.fields << {:name => {:type => :readonly, :value => 'test'}}
+    
+    assert_select 'form div.field' do
+      assert_select "input[type=text][disabled=disabled][name='user[name]'][value='test']"
     end
   end
   

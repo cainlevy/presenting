@@ -109,8 +109,25 @@ module Presentation
       end
       attr_writer :label
       
-      # the parameter (and method) name of the field
+      # the parameter name of the field
       attr_accessor :name
+
+      # where the value for this field comes from.
+      # - String: a fixed value
+      # - Symbol: a method on the record (no arguments)
+      # - Proc: a custom block that accepts the record as an argument
+      def value
+        @value ||= name.to_sym
+      end
+      attr_writer :value
+      
+      def value_from(obj) #:nodoc:
+        v = case value
+          when Symbol: obj.send(value)
+          when String: value
+          when Proc:   value.call(obj)
+        end
+      end
       
       # the widget type for the field. use type_options to pass arguments to the widget.
       def type

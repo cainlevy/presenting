@@ -4,15 +4,15 @@ module Presenting::FormHelpers
   end
   
   def present_readonly_input(field)
-    text_field field.name, :disabled => true
+    text_field field.name, :disabled => true, :value => field.value_from(object)
   end
   
   def present_string_input(field)
-    text_field field.name
+    text_field field.name, :value => field.value_from(object)
   end
   
   def present_text_input(field)
-    text_area field.name
+    text_area field.name, :value => field.value_from(object)
   end
   
   def present_password_input(field)
