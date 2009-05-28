@@ -33,12 +33,12 @@ class AttributeTest < Presenting::Test
     assert_equal "hello", @a.value_from(stub('row', :foo => "bar")), "procs are custom"
   end
   
-  def test_that_value_from_sanitizes_when_configured
+  def test_that_value_from_does_not_sanitizes_itself
     @a.value = '<span>hello</span>'
     @a.sanitize = true
-    assert_equal '&lt;span&gt;hello&lt;/span&gt;', @a.value_from(nil)
+    assert_equal '<span>hello</span>', @a.value_from(nil)
   end
-  
+
   def test_sanitize_is_default_true
     assert @a.sanitize?
   end

@@ -30,9 +30,9 @@ module Presenting
           raise ArgumentError, "unknown presentation `#{presentation}'"
         end
       elsif object.respond_to?(:loaded?) # AssociationProxy
-        present_association(object)
+        present_association(object, options)
       else
-        present_by_class(object)
+        present_by_class(object, options)
       end
     end
     
@@ -51,16 +51,16 @@ module Presenting
     protected
     
     # TODO: special handling for associations (displaying activerecords)
-    def present_association(object)
-      present_by_class(object)
+    def present_association(object, options = {})
+      present_by_class(object, options)
     end
     
-    def present_by_class(object)
+    def present_by_class(object, options = {})
       case object
         when Array
         content_tag "ol" do
           object.collect do |i|
-            content_tag "li", present(i)
+            content_tag "li", present(i, options)
           end.join
         end
         
@@ -69,7 +69,7 @@ module Presenting
         content_tag "dl" do
           object.keys.sort.collect do |k|
             content_tag("dt", k) +
-            content_tag("dd", present(object[k]))
+            content_tag("dd", present(object[k], options))
           end.join
         end
         
@@ -80,7 +80,7 @@ module Presenting
         l(object, :format => :default)
         
         else
-        object.to_s
+        options[:h] ? h(object.to_s) : object.to_s
       end 
     end
   end
