@@ -17,8 +17,7 @@ class Presenting::HelpersTest < ActionView::TestCase
   end
   
   def test_presenting_an_array_presents_the_members
-    time = Time.parse('02/14/2009 05:02 PM')
-    assert present([time]).include?("<li>February 14, 2009 17:02</li>")
+    assert present([true]).include?("<li>True</li>")
   end
   
   def test_presenting_a_hash_creates_a_definition_list
@@ -30,16 +29,15 @@ class Presenting::HelpersTest < ActionView::TestCase
   end
   
   def test_presenting_a_hash_presents_the_values
-    time = Time.parse('02/14/2009 05:02 PM')
-    assert present({1 => time}).include?("<dd>February 14, 2009 17:02</dd>")
+    assert present({1 => true}).include?("<dd>True</dd>")
   end
   
   def test_presenting_a_time
-    assert_equal 'February 13, 2009 02:31', present(Time.parse('02/13/2009 02:31 AM').to_time)
+    assert_equal 'Fri, 13 Feb 2009 02:31:00 -0800', present(Time.parse('02/13/2009 02:31 AM').to_time)
   end
   
   def test_presenting_a_date
-    assert_equal 'February 13, 2009', present(Time.parse('02/13/2009 02:31 AM').to_date)
+    assert_equal '2009-02-13', present(Time.parse('02/13/2009 02:31 AM').to_date)
   end
   
   def test_presenting_a_string

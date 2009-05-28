@@ -77,7 +77,7 @@ module Presenting
         object ? "True" : "False"
         
         when Date, Time, DateTime
-        object.to_s :long
+        l(object, :format => :default)
         
         else
         object.to_s
