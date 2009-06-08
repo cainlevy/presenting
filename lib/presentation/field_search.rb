@@ -49,6 +49,12 @@ module Presentation
         @type ||= :text
       end
       attr_writer :type
+      
+      # extra options for the field.
+      def options
+        @options ||= {}
+      end
+      attr_writer :options
     end
   end
 end

@@ -48,6 +48,12 @@ module Presenting
       check_box_tag options[:name], '1', current_value == '1'
     end
     
+    # presents a dropdown/select search widget for the given field (a Presentation::FieldSearch::Field, probably)
+    def present_dropdown_search(field, options = {})
+      current_value = (params[:search][field.param][:value] rescue nil)
+      select_tag options[:name], options_for_select(field.options, current_value)
+    end
+    
     protected
     
     # TODO: special handling for associations (displaying activerecords)

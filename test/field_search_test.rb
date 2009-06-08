@@ -77,4 +77,15 @@ class FieldSearchRenderingTest < Presentation::RenderTest
 
     assert_select "form input[type=checkbox][name='search[foo][value]'][value=1][checked=checked]"
   end
+  
+  def test_rendering_a_dropdown_field_with_existing_value
+    @presentation.fields << {:foo => {:type => :dropdown, :options => [["Dollar", "$"], ["Kroner", "DKK"]]}}
+    @presentation.controller.params[:search] = {'foo' => {:value => 'DKK'}}
+    
+    assert_select "form select[name='search[foo][value]']" do
+      assert_select "option[value='$']"
+      assert_select "option[value='$'][selected='selected']", false
+      assert_select "option[value='DKK'][selected='selected']"
+    end
+  end
 end
