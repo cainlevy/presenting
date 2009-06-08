@@ -15,4 +15,12 @@ class Presenting::FieldSet < Array
     end
     super @klass.new(opts)
   end
+  
+  def [](key)
+    detect{|i| i.send(@primary_attribute) == key}
+  end
+  
+  def []=(key, val)
+    self << {key => val}
+  end
 end

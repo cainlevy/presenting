@@ -164,8 +164,8 @@ class GridRenderTest < Presentation::RenderTest
   end
 
   def test_rendering_sanitized_data
-    @presentation.fields[0].sanitize = true
-    @presentation.fields[1].sanitize = false
+    @presentation.fields['Name'].sanitize = true
+    @presentation.fields['Email'].sanitize = false
     @records << stub('row', :name => '&', :email => '&')
     
     assert_select "#users tbody tr" do

@@ -28,25 +28,25 @@ class FormTest < Presenting::Test
   def test_adding_a_field_by_name
     @f.fields = [:a]
     
-    assert_equal :a, @f.fields[0].name
-    assert_equal 'A', @f.fields[0].label
-    assert_equal :string, @f.fields[0].type
+    assert_equal :a, @f.fields.first.name
+    assert_equal 'A', @f.fields.first.label
+    assert_equal :string, @f.fields.first.type
   end
   
   def test_adding_a_field_by_name_and_type
     @f.fields = [{:b => :boolean}]
     
-    assert_equal :b, @f.fields[0].name
-    assert_equal 'B', @f.fields[0].label
-    assert_equal :boolean, @f.fields[0].type
+    assert_equal :b, @f.fields.first.name
+    assert_equal 'B', @f.fields.first.label
+    assert_equal :boolean, @f.fields.first.type
   end
   
   def test_adding_a_field_by_name_and_options
     @f.fields = [{:foo => {:label => "Foo Bar", :type => :select}}]
 
-    assert_equal :foo, @f.fields[0].name
-    assert_equal 'Foo Bar', @f.fields[0].label
-    assert_equal :select, @f.fields[0].type
+    assert_equal :foo, @f.fields.first.name
+    assert_equal 'Foo Bar', @f.fields.first.label
+    assert_equal :select, @f.fields.first.type
   end
   
   def test_fields_accessors_are_shortcuts_to_first_group
@@ -58,15 +58,15 @@ class FormTest < Presenting::Test
   def test_adding_an_unnamed_group_of_fields
     @f.groups = [[:a]]
     
-    assert_nil @f.groups[0].name
-    assert_equal :a, @f.groups[0].fields[0].name
+    assert_nil @f.groups.first.name
+    assert_equal :a, @f.groups.first.fields.first.name
   end
   
   def test_adding_a_named_group_of_fields
     @f.groups = [{"foo" => [:a]}]
     
-    assert_equal "foo", @f.groups[0].name
-    assert_equal :a, @f.groups[0].fields[0].name
+    assert_equal "foo", @f.groups.first.name
+    assert_equal :a, @f.groups.first.fields.first.name
   end
 end
 
