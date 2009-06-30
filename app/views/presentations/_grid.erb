@@ -1,16 +1,18 @@
 <div id="<%= @grid.id %>" class="presentation-grid">
   <table>
-    <caption>
-      <%= @grid.title %>
-
-      <% unless @grid.links.empty? %>
-        <ul class="actions">
-          <% @grid.links.each do |link| %>
-            <li><%= link %></li>
-          <% end %>
-        </ul>
-      <% end %>
-    </caption>
+    <% unless @grid.title.blank? and @grid.links.empty? %>
+      <caption>
+        <%= @grid.title %>
+        
+        <% unless @grid.links.empty? %>
+          <ul class="actions">
+            <% @grid.links.each do |link| %>
+              <li><%= link %></li>
+            <% end %>
+          </ul>
+        <% end %>
+      </caption>
+    <% end %>
     <thead>
       <tr>
         <% @grid.fields.each do |field| %>
