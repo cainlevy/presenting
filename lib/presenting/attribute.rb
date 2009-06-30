@@ -14,6 +14,15 @@ module Presenting
       end
     end
     attr_reader :name
+    
+    # The short programmatic name for this field. Can be used as a CSS class, sorting name, etc.
+    def id=(val)
+      @id = val.to_s
+    end
+    
+    def id
+      @id ||= name.to_s.underscore.gsub(/[^a-z0-9]/i, '_').gsub(/__+/, '_').sub(/_$/, '')
+    end
   
     # Where a field's value comes from. Depends heavily on the data type you provide.
     # - String: fixed value (as provided)

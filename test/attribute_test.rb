@@ -42,5 +42,15 @@ class AttributeTest < Presenting::Test
   def test_sanitize_is_default_true
     assert @a.sanitize?
   end
+  
+  def test_assigning_a_symbol_id
+    @a.id = :foo
+    assert_equal 'foo', @a.id
+  end
+  
+  def test_default_id_from_complex_name
+    @a.name = 'Hello, World!'
+    assert_equal 'hello_world', @a.id
+  end
 end
 

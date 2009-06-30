@@ -59,7 +59,7 @@ module Presentation
       #   Field.new(:sortable => false)
       def sortable=(val)
         @sort_name = case val
-          when TrueClass:             self.name.to_s.underscore.sub(' ', '_')
+          when TrueClass:             self.id
           when FalseClass, NilClass:  nil          
           else                        val.to_s
         end
