@@ -2,8 +2,6 @@
   <table>
     <% unless @grid.title.blank? and @grid.links.empty? %>
       <caption>
-        <%= @grid.title %>
-        
         <% unless @grid.links.empty? %>
           <ul class="actions">
             <% @grid.links.each do |link| %>
@@ -11,6 +9,8 @@
             <% end %>
           </ul>
         <% end %>
+        
+        <%= @grid.title %>
       </caption>
     <% end %>
     <thead>
