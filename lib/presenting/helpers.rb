@@ -51,6 +51,7 @@ module Presenting
     # presents a dropdown/select search widget for the given field (a Presentation::FieldSearch::Field, probably)
     def present_dropdown_search(field, options = {})
       current_value = (params[:search][field.param][:value] rescue nil)
+      # TODO: typecast field.options to strings to match current_value, being mindful of different field.options structures
       select_tag options[:name], options_for_select(field.options, current_value)
     end
     

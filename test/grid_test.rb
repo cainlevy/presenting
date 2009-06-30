@@ -136,8 +136,8 @@ class GridRenderTest < Presentation::RenderTest
   def test_rendering_column_headers
     assert_select "#users" do
       assert_select "thead" do
-        assert_select "th", "Name"
-        assert_select "th", "Email"
+        assert_select "th.name", "Name"
+        assert_select "th.email", "Email"
       end
     end
   end
@@ -145,12 +145,12 @@ class GridRenderTest < Presentation::RenderTest
   def test_rendering_rows
     assert_select "#users tbody" do
       assert_select "tr:nth-child(1)" do
-        assert_select 'td:nth-child(1)', 'foo'
-        assert_select 'td:nth-child(2)', 'foo@example.com'
+        assert_select 'td.name', 'foo'
+        assert_select 'td.email', 'foo@example.com'
       end
       assert_select "tr:nth-child(2)" do
-        assert_select 'td:nth-child(1)', 'bar'
-        assert_select 'td:nth-child(2)', 'bar@example.com'
+        assert_select 'td.name', 'bar'
+        assert_select 'td.email', 'bar@example.com'
       end
     end
   end
@@ -169,8 +169,8 @@ class GridRenderTest < Presentation::RenderTest
     @records << stub('row', :name => '&', :email => '&')
     
     assert_select "#users tbody tr" do
-      assert_select 'td:nth-child(1)', '&amp;'
-      assert_select 'td:nth-child(2)', '&'
+      assert_select 'td.name', '&amp;'
+      assert_select 'td.email', '&'
     end
   end
   
@@ -178,7 +178,7 @@ class GridRenderTest < Presentation::RenderTest
     @records << stub('row', :name => ['bob', '&', 'lucy'], :email => '')
     
     assert_select "#users tbody tr" do
-      assert_select 'td:nth-child(1)' do
+      assert_select 'td.name' do
         assert_select 'ol li:nth-child(2)', '&amp;'
       end
     end
