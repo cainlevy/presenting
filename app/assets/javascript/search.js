@@ -1,7 +1,7 @@
 $('.presentation-search fieldset label').livequery(function() {
   var label = $(this);
   var field = label.siblings('input');
-  if (!field || field.attr('type') == 'checkbox') return;
+  if (!field[0] || field.attr('type') == 'checkbox') return;
   
   label.addClass('overlabel');
   
