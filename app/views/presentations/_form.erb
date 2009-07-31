@@ -5,10 +5,14 @@
         <legend><%= group.name %></legend>
       <% end %>
       <% group.fields.each do |field| %>
-        <div class="field">
-          <%= f.label field.name, field.label %>
+        <% if field.type.to_sym == :hidden %>
           <%= f.present(field) %>
-        </div>
+        <% else %>
+          <div class="field">
+            <%= f.label field.name, field.label %>
+            <%= f.present(field) %>
+          </div>
+        <% end %>
       <% end %>
     </fieldset>
   <% end %>

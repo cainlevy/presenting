@@ -11,6 +11,10 @@ module Presenting::FormHelpers
     text_field field.name, :value => field.value_from(object)
   end
   
+  def present_hidden_input(field)
+    hidden_field field.name, :value => field.value_from(object)
+  end
+  
   def present_text_input(field)
     text_area field.name, :value => field.value_from(object)
   end

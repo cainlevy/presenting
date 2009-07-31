@@ -183,6 +183,16 @@ class FormRenderingTest < Presentation::RenderTest
     end
   end
   
+  def test_rendering_a_hidden_field
+    @presentation.presentable = User.new(:suspended => false)
+    @presentation.fields = [{:suspended => :hidden}]
+    
+    assert_select 'form' do
+      assert_select 'label', {:text => 'Suspended', :count => 0}
+      assert_select "input[type=hidden][name='user[suspended]']"
+    end
+  end
+  
   def test_rendering_a_dropdown_field
     @presentation.presentable = User.new(:prefix => 'mr')
     @presentation.fields = [{:prefix => {:type => :dropdown, :type_options => [['Mr.', 'mr'], ['Mrs.', 'mrs']]}}]
