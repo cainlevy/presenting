@@ -45,18 +45,34 @@ module Presenting
     # presents a checkbox search widget for the given field (a Presentation::FieldSearch::Field, probably)
     def present_checkbox_search(field, options = {})
       current_value = (params[:search][field.param][:value] rescue nil)
-      check_box_tag options[:name], '1', current_value == '1'
+      check_box_tag options[:name], '1', current_value.to_s == '1'
     end
     
     # presents a dropdown/select search widget for the given field (a Presentation::FieldSearch::Field, probably)
     def present_dropdown_search(field, options = {})
       current_value = (params[:search][field.param][:value] rescue nil)
-      # TODO: typecast field.options to strings to match current_value, being mindful of different field.options structures
-      select_tag options[:name], options_for_select(field.options, current_value)
+      select_tag options[:name], options_for_select(normalize_dropdown_options_to_strings(field.options), current_value)
     end
     
     protected
     
+    # We want to normalize the value elements of the dropdown options to strings so that
+    # they will match against params[:search].
+    #
+    # Need to handle the three different dropdown options formats:
+    # * array of strings
+    # * array of arrays
+    # * hash
+    def normalize_dropdown_options_to_strings(options)
+      options.to_a.map do |element|
+        if element.is_a? String
+          [element, element]
+        else
+          [element.first, element.last.to_s]
+        end
+      end
+    end
+
     # TODO: special handling for associations (displaying activerecords)
     def present_association(object, options = {})
       present_by_class(object, options)
