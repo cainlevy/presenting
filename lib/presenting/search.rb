@@ -175,9 +175,9 @@ module Presenting
           val.is_a?(String) ?
             (Time.zone ? Time.zone.parse(val) : Time.parse(val)) :
             val
-          
+
           else
-          val
+          val.to_s.strip
         end
       end
     end

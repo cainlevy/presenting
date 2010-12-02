@@ -57,7 +57,12 @@ class SearchConditionsTest < Presenting::Test
     @c.fields = [:a, :b]
     assert_equal ["a = ?", 'foo'], @c.to_sql({'a' => {:value => 'foo'}, 'b' => {:value => ''}}, :field)
   end
-  
+
+  def test_field_conditions_with_space_padded_term
+    @c.fields = [:a]
+    assert_equal ["a = ?", 'foo'], @c.to_sql({'a' => {:value => ' foo '}}, :field)
+  end
+
   def test_field_conditions_with_only_blank_terms
     @c.fields = [:a]
     assert_nil @c.to_sql({'a' => {:value => ''}}, :field)
