@@ -38,6 +38,11 @@ class AttributeTest < Presenting::Test
     @a.sanitize = true
     assert_equal '<span>hello</span>', @a.value_from(nil)
   end
+  
+  def test_hash_rows_with_symbol_values
+    @a.value = :foo
+    assert_equal 'bar', @a.value_from({:foo => 'bar'}), "symbols are hash keys"
+  end
 
   def test_sanitize_is_default_true
     assert @a.sanitize?
