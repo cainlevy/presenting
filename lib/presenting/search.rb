@@ -61,7 +61,7 @@ module Presenting
       unless searched_fields.empty?
         sql = searched_fields.map(&:fragment).join(' AND ')
         binds = searched_fields.collect{|f| f.bind(field_terms[f.name][:value])}
-      
+
         [sql, binds].flatten.compact
       end
     end
