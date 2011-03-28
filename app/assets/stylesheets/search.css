@@ -17,11 +17,15 @@
 
 /* for overlabels (requires javascript) */
 
-.presentation-search fieldset {
+.presentation-search .compact label {
+  display: inline;
+}
+
+.presentation-search .compact fieldset {
   position: relative;
 }
 
-.presentation-search fieldset label.overlabel {
+.presentation-search .compact fieldset label.overlabel {
   display: block;
   position: absolute;
   top: 0.2em;

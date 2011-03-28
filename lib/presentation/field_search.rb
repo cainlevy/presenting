@@ -23,6 +23,11 @@ module Presentation
       @fields ||= Presenting::FieldSet.new(Field, :param, :type)
     end
     
+    def compact
+      @compact != false
+    end
+    attr_writer :compact
+    
     class Field
       include Presenting::Configurable
       

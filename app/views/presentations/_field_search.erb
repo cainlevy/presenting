@@ -1,5 +1,5 @@
 <div class="presentation-search">
-  <% form_tag @search.url, :method => :get do %>
+  <% form_tag @search.url, :method => :get, :class => ("compact" if @search.compact) do %>
     <% @search.fields.each do |field| %>
       <fieldset>
         <label><%= field.name %></label>
