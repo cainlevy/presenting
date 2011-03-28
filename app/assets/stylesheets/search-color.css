@@ -1,3 +1,16 @@
 .presentation-search label {
-  color: #aaa;
+  color: #666;
 }
+
+.presentation-search fieldset {
+  border: 1px solid #c5dbf7;
+  background-color: #e6f2ff;
+  padding: 2px;
+}
+
+.presentation-search fieldset.submit {
+  border: 0px;
+  padding: 0px;
+  background-color: transparent;
+}
+

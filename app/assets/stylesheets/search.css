@@ -1,18 +1,27 @@
 .presentation-search {
-  overflow: auto;
+  overflow: hidden;
   zoom: 1;
 }
 
 .presentation-search fieldset {
   border: 0;
-  margin: 0 0.5em 0 0;
+  margin: 0 0.5em 1em 0;
   padding: 0;
   float: left;
+  width: 145px;
 }
 
 .presentation-search fieldset label {
   font-weight: normal;
-  display: inline;
+  margin: 0;
+  padding: 0;
+  text-transform: none;
+}
+
+.presentation-search fieldset input,
+.presentation-search fieldset select {
+  padding: 0px;
+  margin: 0px;
 }
 
 /* for overlabels (requires javascript) */
@@ -23,6 +32,7 @@
 
 .presentation-search .compact fieldset {
   position: relative;
+  width: auto;
 }
 
 .presentation-search .compact fieldset label.overlabel {

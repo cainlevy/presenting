@@ -6,7 +6,7 @@
         <%= present(field, "#{field.type}_search", :name => "search[#{field.param}][value]") %>
       </fieldset>
     <% end %>
-    <fieldset>
+    <fieldset class="submit">
       <input type="submit" value="Search" class="submit" />
       <%= link_to 'reset', @search.url %>
     </fieldset>
