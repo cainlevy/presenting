@@ -12,21 +12,20 @@ require 'mocha'
 require 'will_paginate'
 WillPaginate.enable_actionpack
 
-PLUGIN_ROOT = File.join(File.dirname(__FILE__), '..')
+GEM_ROOT = File.join(File.dirname(__FILE__), '..')
 
 # prepare for autoloading
-ActiveSupport::Dependencies.autoload_paths << File.join(PLUGIN_ROOT, 'lib')
-$LOAD_PATH.unshift File.join(PLUGIN_ROOT, 'lib')
-ActionController::Base.view_paths << File.join(PLUGIN_ROOT, 'app', 'views')
-ActiveSupport::Dependencies.autoload_paths << File.join(PLUGIN_ROOT, 'app', 'controllers')
-$LOAD_PATH.unshift File.join(PLUGIN_ROOT, 'app', 'controllers')
+ActionController::Base.view_paths << File.join(GEM_ROOT, 'app', 'views')
+ActiveSupport::Dependencies.autoload_paths << File.join(GEM_ROOT, 'app', 'controllers')
+$LOAD_PATH.unshift File.join(GEM_ROOT, 'app', 'controllers')
 
 # set up the asset routes, and an extra resource for tests that generate normal routes
-require File.join(PLUGIN_ROOT, 'config', 'routes')
+require File.join(GEM_ROOT, 'config', 'routes')
 ActionController::Routing::Routes.draw do |map| map.resources :users end
 
 # load the code
-require 'rails/init'
+$LOAD_PATH.unshift File.join(GEM_ROOT, 'lib') # needed when running test files w/o rake
+require File.join(GEM_ROOT, 'lib', 'presenting')
 
 class TestController < ActionController::Base
   attr_accessor :request, :response, :params

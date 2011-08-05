@@ -1,3 +1,5 @@
+require 'presentation/grid'
+
 module Presentation
   # TODO: abstract what's common between Record and Grid into a shared module or reusable objects or something
   class Details < Grid
