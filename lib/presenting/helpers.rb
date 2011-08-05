@@ -84,7 +84,7 @@ module Presenting
         content_tag "ol" do
           object.collect do |i|
             content_tag "li", present(i, options)
-          end.join
+          end.join.html_safe
         end
         
         when Hash
@@ -93,7 +93,7 @@ module Presenting
           object.keys.sort.collect do |k|
             content_tag("dt", k) +
             content_tag("dd", present(object[k], options))
-          end.join
+          end.join.html_safe
         end
         
         when TrueClass, FalseClass
