@@ -26,7 +26,7 @@ require File.join(PLUGIN_ROOT, 'config', 'routes')
 ActionController::Routing::Routes.draw do |map| map.resources :users end
 
 # load the code
-require File.join(PLUGIN_ROOT, 'init')
+require 'rails/init'
 
 class TestController < ActionController::Base
   attr_accessor :request, :response, :params
