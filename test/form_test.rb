@@ -98,8 +98,13 @@ end
 
 class FormRenderingTest < Presentation::RenderTest
   def setup
+    Rails.application.routes.draw do resources :users end
     @presentation = Presentation::Form.new
-    @presentation.controller = TestController.new
+    @presentation.controller = ActionView::TestCase::TestController.new
+  end
+  
+  def teardown
+    Rails.application.reload_routes!
   end
   
   def test_rendering_a_string_field
@@ -254,34 +259,58 @@ class FormRenderingTest < Presentation::RenderTest
   
   class User
     include Presenting::Configurable
-    
+
     attr_accessor :prefix
     attr_accessor :name
     attr_accessor :email
     attr_accessor :registered
     attr_accessor :suspended
     attr_accessor :role_ids
-    
+
     ##
     ## duck typing
     ##
-    
+
     def new_record=(val)
       @new_record = val
     end
-    
+
     def new_record?
       !! @new_record
     end
 
+    ##
+    ## Keys
+    ##
+
     def id
       @id ||= new_record? ? nil : '12345'
     end
-    
+
+    def to_key
+      new_record? ? nil : [ id ]
+    end
+
     def to_param
       id
     end
-    
-    def self.name; 'User' end
+
+    ##
+    ## Naming
+    ##
+
+    extend ActiveModel::Naming
+
+    # i actually want this model's name to not include the FormRenderingTest namespace
+    # so i'm stubbing out the ActiveModel::Name with my own structure
+    def self.model_name
+      @_model_name ||= Name.new(:plural => 'users', :singular => 'user')
+    end
+    class Name
+      attr_accessor :plural, :singular
+      def initialize(hash)
+        hash.each { |k, v| self.instance_variable_set("@#{k}", v) }
+      end
+    end
   end
 end

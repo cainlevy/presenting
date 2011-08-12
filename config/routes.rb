@@ -1,6 +1,8 @@
-ActionController::Routing::Routes.draw do |map|
-  map.namespace(:presentation) do |presentation|
-    presentation.stylesheet 'stylesheets/:id.css', :controller => 'assets', :action => 'stylesheet', :format => 'css'
-    presentation.javascript 'javascript/:id.js', :controller => 'assets', :action => 'javascript', :format => 'js'
+Rails.application.routes.draw do
+  namespace :presentation do
+    controller 'assets' do
+      match 'stylesheets/:id.:format', :as => 'stylesheet', :action => 'stylesheet', :constraints => {:format => 'css'}
+      match 'javascript/:id.:format', :as => 'javascript', :action => 'javascript', :constraints => {:format => 'js'}
+    end
   end
 end

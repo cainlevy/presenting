@@ -1,5 +1,5 @@
 <div class="presentation-search">
-  <% form_tag @search.url, :method => :get do %>
+  <%= form_tag @search.url, :method => :get do %>
     <%= text_field_tag 'search', params[:search] %>
     <input type="submit" value="Search" class="submit" />
     <%= link_to 'reset', @search.url %>

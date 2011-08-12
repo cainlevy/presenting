@@ -1,43 +1,13 @@
-ENV["RAILS_ENV"] = "test"
-
-# load the support libraries
-require 'test/unit'
+# bootstrap
 require 'rubygems'
-gem 'rails', '2.3.11'
-require 'active_support'
-require 'action_pack'
-require 'action_controller'
-require 'action_view'
+require 'test/unit'
 require 'mocha'
-require 'will_paginate'
-WillPaginate.enable_actionpack
 
-GEM_ROOT = File.join(File.dirname(__FILE__), '..')
-
-# prepare for autoloading
-ActionController::Base.view_paths << File.join(GEM_ROOT, 'app', 'views')
-ActiveSupport::Dependencies.autoload_paths << File.join(GEM_ROOT, 'app', 'controllers')
-$LOAD_PATH.unshift File.join(GEM_ROOT, 'app', 'controllers')
-
-# set up the asset routes, and an extra resource for tests that generate normal routes
-require File.join(GEM_ROOT, 'config', 'routes')
-ActionController::Routing::Routes.draw do |map| map.resources :users end
-
-# load the code
-$LOAD_PATH.unshift File.join(GEM_ROOT, 'lib') # needed when running test files w/o rake
-require File.join(GEM_ROOT, 'lib', 'presenting')
-
-class TestController < ActionController::Base
-  attr_accessor :request, :response, :params
-
-  def initialize
-    @request = ActionController::TestRequest.new
-    @response = ActionController::TestResponse.new
-    
-    @params = {}
-    send(:initialize_current_url)
-  end
-end
+# load the test app, which will load gems
+ENV['RAILS_ENV'] = 'test'
+require File.join(File.dirname(__FILE__), 'r3', 'config', 'environment.rb')
+require 'rails/test_help'
+Rails.backtrace_cleaner.remove_silencers!
 
 # a way to customize syntax for our tests
 class Presenting::Test < Test::Unit::TestCase
@@ -47,7 +17,7 @@ end
 
 # inheriting tests should target rendering behavior given certain configurations
 class Presentation::RenderTest < Presenting::Test
-  include ActionController::Assertions::SelectorAssertions
+  include ActionDispatch::Assertions::SelectorAssertions
 
   protected
   

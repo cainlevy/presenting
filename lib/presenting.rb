@@ -1,5 +1,6 @@
 require 'action_view'
 require 'action_controller'
+require 'presenting/engine'
 
 module Presenting
   autoload :Attribute, 'presenting/attribute'

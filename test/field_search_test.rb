@@ -47,7 +47,7 @@ end
 class FieldSearchRenderingTest < Presentation::RenderTest
   def setup
     @presentation = Presentation::FieldSearch.new
-    @presentation.controller = TestController.new
+    @presentation.controller = ActionView::TestCase::TestController.new
     @presentation.controller.request.path = '/users'
   end
 

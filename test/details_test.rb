@@ -28,7 +28,7 @@ class DetailsRenderTest < Presentation::RenderTest
   def setup
     @presentation = Presentation::Details.new
     @presentation.presentable = stub('user', :name => 'foo', :email => 'foo@example.com')
-    @presentation.controller = TestController.new
+    @presentation.controller = ActionView::TestCase::TestController.new
   end
   
   def test_rendering_a_title

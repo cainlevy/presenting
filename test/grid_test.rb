@@ -102,14 +102,19 @@ end
 
 class GridRenderTest < Presentation::RenderTest
   def setup
+    Rails.application.routes.draw do resources :users end
     @presentation = Presentation::Grid.new(:id => "users", :fields => [:name, :email])
     @records = [
       stub('user', :name => 'foo', :email => 'foo@example.com'),
       stub('user', :name => 'bar', :email => 'bar@example.com')
     ]
     @presentation.presentable = @records
-    @presentation.controller = TestController.new
+    @presentation.controller = ActionView::TestCase::TestController.new
     @presentation.controller.params = {:controller => 'users', :action => 'index'} # WillPaginate reuses existing params
+  end
+  
+  def teardown
+    Rails.application.reload_routes!
   end
 
   def test_rendering_the_title
@@ -209,10 +214,10 @@ class GridRenderTest < Presentation::RenderTest
   
   def test_rendering_a_sorted_column
     @presentation.fields.each{|f| f.sortable = true}
-    @presentation.controller.request.query_parameters = {"sort" => {'name' => 'desc'}}
-    
+    @presentation.controller.request.env['QUERY_STRING'] = 'sort[name]=desc'
+
     assert_select "#users thead" do
-      assert_select "th a.sortable[href='/?sort%5Bname%5D=asc']", "Name"
+      assert_select "th a.sortable[href='?sort[name]=asc']", "Name"
     end
   end
 end

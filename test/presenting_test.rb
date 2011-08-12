@@ -6,7 +6,7 @@ class PresentationTest < Test::Unit::TestCase
     # TODO: create a "hello world" test-only setup so i can test rendering
     @p = Presentation::Grid.new(:id => "hello_world")
     @p.presentable = []
-    @p.controller = TestController.new
+    @p.controller = ActionView::TestCase::TestController.new
     assert_nothing_raised do
       assert @p.render
     end

@@ -53,7 +53,7 @@ class Presenting::HelpersTest < ActionView::TestCase
   end
 
   def test_presenting_a_named_presentation
-    self.expects(:controller).returns(TestController.new)
+    self.expects(:controller).returns(ActionView::TestCase::TestController.new)
     Presentation::Grid.any_instance.expects(:render)
     present('hello', :grid)
   end

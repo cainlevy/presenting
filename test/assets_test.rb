@@ -23,14 +23,14 @@ class Presentation::AssetsControllerTest < ActionController::TestCase
   def test_retrieving_a_named_stylesheet
     get :stylesheet, :id => 'grid', :format => 'css'
     assert_response :success
-    assert_equal @response.body, File.read(File.join(GEM_ROOT, 'app', 'assets', 'stylesheets', 'grid.css'))
+    assert_equal @response.body, File.read(File.join('app', 'assets', 'stylesheets', 'grid.css'))
   end
   
   def test_retrieving_multiple_named_stylesheets
     get :stylesheet, :id => 'grid,form', :format => 'css'
     assert_response :success
-    assert @response.body.include?(File.read(File.join(GEM_ROOT, 'app', 'assets', 'stylesheets', 'grid.css')))
-    assert @response.body.include?(File.read(File.join(GEM_ROOT, 'app', 'assets', 'stylesheets', 'form.css')))
+    assert @response.body.include?(File.read(File.join('app', 'assets', 'stylesheets', 'grid.css')))
+    assert @response.body.include?(File.read(File.join('app', 'assets', 'stylesheets', 'form.css')))
   end
   
   # javascript
@@ -50,7 +50,7 @@ class Presentation::AssetsControllerTest < ActionController::TestCase
   def test_retrieving_multiple_named_javascripts
     get :javascript, :id => 'grid,search', :format => 'js'
     assert_response :success
-    assert @response.body.include?(File.read(File.join(GEM_ROOT, 'app', 'assets', 'javascript', 'grid.js')))
-    assert @response.body.include?(File.read(File.join(GEM_ROOT, 'app', 'assets', 'javascript', 'search.js')))
+    assert @response.body.include?(File.read(File.join('app', 'assets', 'javascript', 'grid.js')))
+    assert @response.body.include?(File.read(File.join('app', 'assets', 'javascript', 'search.js')))
   end
 end
