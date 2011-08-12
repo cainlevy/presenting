@@ -1,11 +1,11 @@
 module Presenting
   module Helpers
     def presentation_stylesheets(*args)
-      stylesheet_link_tag presentation_stylesheet_path(args.sort.join(','))
+      stylesheet_link_tag presentation_stylesheet_path(args.sort.join(','), :format => 'css')
     end
     
     def presentation_javascript(*args)
-      javascript_include_tag presentation_javascript_path(args.sort.join(','))
+      javascript_include_tag presentation_javascript_path(args.sort.join(','), :format => 'js')
     end
     
     def present(*args, &block)
