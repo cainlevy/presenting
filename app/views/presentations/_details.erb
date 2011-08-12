@@ -5,7 +5,7 @@
   <dl>
     <% @details.fields.each do |field| %>
       <dt><%= field.name %></dt>
-      <dd><%= present(field.value_from(@details.presentable), :h => field.sanitize?) %></dd>
+      <dd><%= present(field.value_from(@details.presentable), :raw => !field.sanitize?) %></dd>
     <% end %>
   </dl>
 </div>

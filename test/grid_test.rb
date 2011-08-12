@@ -117,7 +117,7 @@ class GridRenderTest < Presentation::RenderTest
   end
   
   def test_rendering_links
-    @presentation.links = ['<a href="/foo" class="foo">bar</a>']
+    @presentation.links = ['<a href="/foo" class="foo">bar</a>'.html_safe]
 
     assert_select '#users caption ul.actions' do
       assert_select 'li a.foo', 'bar'
@@ -125,8 +125,8 @@ class GridRenderTest < Presentation::RenderTest
   end
   
   def test_rendering_record_links
-    @presentation.record_links = [proc{|r| "<a href='/foo' class='record-link'>#{r.name}</a>"}]
-    
+    @presentation.record_links = [proc{|r| "<a href='/foo' class='record-link'>#{r.name}</a>".html_safe}]
+
     assert_select '#users tbody tr td ul.actions' do
       assert_select 'li a.record-link', 'foo'
       assert_select 'li a.record-link', 'bar'

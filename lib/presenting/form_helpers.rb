@@ -40,7 +40,7 @@ module Presenting::FormHelpers
     field.type_options.collect do |(display, value)|
       label("#{field.name}_#{value}", display) +
       radio_button(field.name, value)
-    end.join
+    end.join.html_safe
   end
   
   private

@@ -103,7 +103,7 @@ module Presenting
         l(object, :format => :default)
         
         else
-        options[:h] ? h(object.to_s) : object.to_s
+        options[:raw] ? object.to_s.html_safe : object.to_s
       end 
     end
   end

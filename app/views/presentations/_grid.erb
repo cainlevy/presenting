@@ -41,7 +41,7 @@
           <tr class="<%= cycle('odd', 'even') %>">
             <% @grid.fields.each do |field| %>
               <td class="<%= [field.id, ('sorted' if field.is_sorted?(request))].compact.join(' ') %>">
-                <%= present(field.value_from(record), :h => field.sanitize?) %>
+                <%= present(field.value_from(record), :raw => !field.sanitize?) %>
               </td>
             <% end %>
             <% unless @grid.record_links.empty? %>
