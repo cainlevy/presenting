@@ -1,3 +1,5 @@
+require 'presentation/search'
+
 module Presentation
   class FieldSearch < Search
     # This method supports the configuration-on-initialization paradigm. It makes:
