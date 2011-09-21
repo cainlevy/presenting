@@ -50,7 +50,7 @@ class Presentation::AssetsControllerTest < ActionController::TestCase
   def test_retrieving_multiple_named_javascripts
     get :javascript, :id => 'grid,search', :format => 'js'
     assert_response :success
-    assert @response.body.include?(File.read(File.join('app', 'assets', 'javascript', 'grid.js')))
-    assert @response.body.include?(File.read(File.join('app', 'assets', 'javascript', 'search.js')))
+    assert @response.body.include?(File.read(File.join('app', 'assets', 'javascripts', 'grid.js')))
+    assert @response.body.include?(File.read(File.join('app', 'assets', 'javascripts', 'search.js')))
   end
 end

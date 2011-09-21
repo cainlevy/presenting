@@ -26,7 +26,7 @@ class Presentation::AssetsController < ActionController::Base
   # - - required fields
   # TODO: tests for ujs
   def javascript
-    dir = asset_path(:javascript)
+    dir = asset_path(:javascripts)
     script = params[:id].split(',').collect{ |id| File.read("#{dir}/#{id}.js") }.join("\n")
     
     respond_to do |type|
