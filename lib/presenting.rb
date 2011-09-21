@@ -13,6 +13,21 @@ module Presenting
   autoload :Search, 'presenting/search'
   autoload :Sorting, 'presenting/sorting'
   autoload :View, 'presenting/view'
+
+  # copies all assets into the application's public directory
+  # public/stylesheets/presenting and public/javascripts/presenting
+  def self.precache!
+    presenting_dir = __FILE__.sub(/\/lib\/.*/, '') # there must be a better way
+    %w(stylesheets javascripts).each do |asset_type|
+      source_dir = File.join(presenting_dir, 'app', 'assets', asset_type)
+      target_dir = File.join(Rails.application.paths.public.send(asset_type).first, 'presenting')
+      FileUtils.mkdir_p(target_dir)
+
+      Dir[File.join(source_dir, '*')].each do |asset|
+        FileUtils.cp(asset, File.join(target_dir, File.basename(asset)))
+      end
+    end
+  end
 end
 
 module Presentation
