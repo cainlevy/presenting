@@ -154,7 +154,7 @@ module Presentation
     end
     
     def paginate?
-      defined? WillPaginate and presentable.is_a?(WillPaginate::Collection)
+      defined? WillPaginate and (presentable.is_a? WillPaginate::Collection or presentable.respond_to?(:total_entries))
     end
   end
 end

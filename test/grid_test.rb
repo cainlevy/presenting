@@ -58,7 +58,7 @@ class GridTest < Presenting::Test
     end
   end
   
-  def test_arrays_do_not_paginate
+  def test_arrays_will_not_paginate
     @g.presentable = []
     assert !@g.paginate?
   end
@@ -67,6 +67,21 @@ class GridTest < Presenting::Test
     @g.presentable = WillPaginate::Collection.new(1, 1)
     assert @g.paginate?
   end
+
+  def test_unpaged_relations_will_not_paginate
+    klass = Class.new(ActiveRecord::Base)
+    table = Arel::Table.new('users')
+    @g.presentable = ActiveRecord::Relation.new(klass, table)
+    assert !@g.paginate?
+  end
+
+  def test_paginated_relations_will_paginate
+    klass = Class.new(ActiveRecord::Base)
+    table = Arel::Table.new('users')
+    @g.presentable = ActiveRecord::Relation.new(klass, table).page(1)
+    assert @g.paginate?
+  end
+
 end
 
 class GridFieldTest < Presenting::Test
