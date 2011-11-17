@@ -6,13 +6,13 @@ module Presentation
   class Grid < Base
     # The id for this presentation. Required.
     attr_accessor :id
-    
+
     # The display title for this presentation. Will default based on the id.
     attr_writer :title
     def title
       @title ||= self.id.titleize
     end
-    
+
     # Paradigm Example:
     #   Grid.new(:fields => [
     #     :email,
@@ -30,15 +30,15 @@ module Presentation
         self.fields << field
       end
     end
-    
+
     def fields
       @fields ||= Presenting::FieldSet.new(Field, :name, :value)
     end
-    
+
     def colspan
       @colspan ||= fields.size + (record_links.empty? ? 0 : 1)
     end
-    
+
     def iname; :grid end
 
     class Field < Presenting::Attribute
@@ -59,20 +59,22 @@ module Presentation
       #   Field.new(:sortable => false)
       def sortable=(val)
         @sort_name = case val
-          when TrueClass:             self.id
-          when FalseClass, NilClass:  nil          
-          else                        val.to_s
+          when TrueClass, FalseClass, NilClass
+          val
+          else
+          val.to_s
         end
       end
-      
+
       # if the field is sortable at all
       def sortable?
         self.sortable = Presenting::Defaults.grid_is_sortable unless defined? @sort_name
+        self.sortable = self.id if @sort_name == true
         !@sort_name.blank?
       end
-      
+
       attr_reader :sort_name
-      
+
       # is this field sorted in the given request?
       def is_sorted?(request)
         @is_sorted ||= if sortable? and sorting = request.query_parameters["sort"] and sorting[sort_name]
@@ -81,7 +83,7 @@ module Presentation
           false
         end
       end
-      
+
       # for the view -- modifies the current request such that it would sort this field.
       def sorted_url(request)
         if current_direction = is_sorted?(request)
@@ -91,7 +93,7 @@ module Presentation
         end
         request.path + '?' + request.query_parameters.merge("sort" => {sort_name => next_direction}).to_param
       end
-      
+
       ##
       ## Planned
       ##
@@ -100,10 +102,10 @@ module Presentation
       # TODO: decorate a Hash object so type is specifiable there as well
       # PLAN: type should determine how a field renders. custom types for custom renders. this should be the second option to present().
       # attr_accessor :type
-      
+
       # PLAN: a field's description would appear in the header column, perhaps only visibly in a tooltip
       # attr_accessor :description
-      
+
       # PLAN: any field may be linked. this would happen after :value and :type.
       # attr_accessor :link
     end
@@ -135,7 +137,7 @@ module Presentation
     def links
       @links ||= []
     end
-    
+
     # Like links, except the link will appear for each record. This means that the link must be a block that accepts the
     # record as its argument. For example:
     #
@@ -152,7 +154,7 @@ module Presentation
     def record_links
       @record_links ||= []
     end
-    
+
     def paginate?
       defined? WillPaginate and (presentable.is_a? WillPaginate::Collection or presentable.respond_to?(:total_entries))
     end
