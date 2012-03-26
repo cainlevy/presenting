@@ -20,7 +20,7 @@ module Presenting
     presenting_dir = __FILE__.sub(/\/lib\/.*/, '') # there must be a better way
     %w(stylesheets javascripts).each do |asset_type|
       source_dir = File.join(presenting_dir, 'app', 'assets', asset_type)
-      target_dir = File.join(Rails.application.paths.public.send(asset_type).first, 'presenting')
+      target_dir = File.join(Rails.application.paths["public/#{asset_type}"].first, 'presenting')
       FileUtils.mkdir_p(target_dir)
 
       Dir[File.join(source_dir, '*')].each do |asset|
