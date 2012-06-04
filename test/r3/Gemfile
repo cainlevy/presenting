@@ -5,3 +5,7 @@ gem 'sqlite3'
 
 gem 'presenting', :path => File.dirname(__FILE__) + '/../../'
 gem 'will_paginate', '~>3.0.0'
+
+group :test do
+  gem 'mocha', :require => nil
+end
