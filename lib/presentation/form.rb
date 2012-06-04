@@ -122,10 +122,13 @@ module Presentation
       attr_writer :value
       
       def value_from(obj) #:nodoc:
-        v = case value
-          when Symbol: obj.send(value)
-          when String: value
-          when Proc:   value.call(obj)
+        case value
+        when Symbol
+          obj.send(value)
+        when String
+          value
+        when Proc
+          value.call(obj)
         end
       end
       

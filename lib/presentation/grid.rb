@@ -59,9 +59,9 @@ module Presentation
       #   Field.new(:sortable => false)
       def sortable=(val)
         @sort_name = case val
-          when TrueClass, FalseClass, NilClass
+        when TrueClass, FalseClass, NilClass
           val
-          else
+        else
           val.to_s
         end
       end

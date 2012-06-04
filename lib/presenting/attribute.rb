@@ -32,9 +32,12 @@ module Presenting
     
     def value_from(obj) #:nodoc:
       case value
-        when Symbol: obj.is_a?(Hash) ? obj[value] : obj.send(value)
-        when String: value
-        when Proc:   value.call(obj)
+      when Symbol
+        obj.is_a?(Hash) ? obj[value] : obj.send(value)
+      when String
+        value
+      when Proc
+        value.call(obj)
       end
     end
     

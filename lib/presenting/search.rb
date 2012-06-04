@@ -19,10 +19,10 @@ module Presenting
     #   })
     def fields=(obj)
       case obj
-        when Array
+      when Array
         obj.each do |name| fields << name end
         
-        when Hash
+      when Hash
         obj.each do |k, v|
           fields << {k => v}
         end 
@@ -166,17 +166,17 @@ module Presenting
       
       def typecast(val)
         case type
-          when :date
+        when :date
           val.is_a?(String) ?
             (Time.zone ? Time.zone.parse(val) : Time.parse(val)).to_date :
             val
           
-          when :time, :datetime
+        when :time, :datetime
           val.is_a?(String) ?
             (Time.zone ? Time.zone.parse(val) : Time.parse(val)) :
             val
 
-          else
+        else
           val.to_s.strip
         end
       end

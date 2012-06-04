@@ -84,14 +84,14 @@ module Presenting
     
     def present_by_class(object, options = {})
       case object
-        when Array
+      when Array
         content_tag "ol" do
           object.collect do |i|
             content_tag "li", present(i, options)
           end.join.html_safe
         end
         
-        when Hash
+      when Hash
         # sort by keys
         content_tag "dl" do
           object.keys.sort.collect do |k|
@@ -100,13 +100,13 @@ module Presenting
           end.join.html_safe
         end
         
-        when TrueClass, FalseClass
+      when TrueClass, FalseClass
         object ? "True" : "False"
         
-        when Date, Time, DateTime
+      when Date, Time, DateTime
         l(object, :format => :default)
         
-        else
+      else
         options[:raw] ? object.to_s.html_safe : object.to_s
       end 
     end

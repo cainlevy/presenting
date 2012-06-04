@@ -12,10 +12,10 @@ module Presenting
     #   })
     def fields=(obj)
       case obj
-        when Array
+      when Array
         obj.each do |name| fields << name end
         
-        when Hash
+      when Hash
         obj.each do |k, v|
           fields << {k => v}
         end 

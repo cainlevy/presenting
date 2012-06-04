@@ -5,13 +5,13 @@ module Presenting::Sanitize
     # escape but preserve Arrays and Hashes
     def h(val)
       case val
-        when Array
+      when Array
         val.map{|i| h(i)}
         
-        when Hash
+      when Hash
         val.clone.each{|k, v| val[h(k)] = h(v)}
         
-        else
+      else
         html_escape(val)
       end
     end
