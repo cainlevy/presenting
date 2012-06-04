@@ -9,7 +9,7 @@ module Presentation
     attr_accessor :presentable
 
     attr_accessor :controller
-    delegate :request, :form_authenticity_token, :url_for, :params, :to => 'controller'
+    delegate :request, :form_authenticity_token, :url_for, :params, :_prefixes, :to => 'controller'
 
     protected
 

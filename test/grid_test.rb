@@ -239,7 +239,7 @@ class GridRenderTest < Presentation::RenderTest
     @presentation.controller.request.env['QUERY_STRING'] = 'sort[name]=desc'
 
     assert_select "#users thead" do
-      assert_select "th a.sortable[href='?sort[name]=asc']", "Name"
+      assert_select "th a.sortable[href='?sort%5Bname%5D=asc']", "Name"
     end
   end
 end

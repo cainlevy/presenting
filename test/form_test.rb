@@ -165,12 +165,13 @@ class FormRenderingTest < Presentation::RenderTest
   end
   
   def test_rendering_a_password_field
-    @presentation.presentable = User.new(:name => 'bob smith')
+    @presentation.presentable = User.new(:name => 'secret')
     @presentation.fields = [{:name => :password}]
-    
+
     assert_select 'form div.field' do
       assert_select 'label', 'Name'
-      assert_select "input[type=password][name='user[name]'][value='bob smith']"
+      assert_select "input[type=password][name='user[name]']", true
+      assert_select "input[type=password][name='user[name]'][value='secret']", false
     end
   end
   
@@ -300,17 +301,8 @@ class FormRenderingTest < Presentation::RenderTest
     ##
 
     extend ActiveModel::Naming
-
-    # i actually want this model's name to not include the FormRenderingTest namespace
-    # so i'm stubbing out the ActiveModel::Name with my own structure
     def self.model_name
-      @_model_name ||= Name.new(:plural => 'users', :singular => 'user')
-    end
-    class Name
-      attr_accessor :plural, :singular
-      def initialize(hash)
-        hash.each { |k, v| self.instance_variable_set("@#{k}", v) }
-      end
+      @_model_name ||= ActiveModel::Name.new(self, FormRenderingTest)
     end
   end
 end

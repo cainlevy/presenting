@@ -7,6 +7,7 @@ require 'mocha'
 ENV['RAILS_ENV'] = 'test'
 require File.join(File.dirname(__FILE__), 'r3', 'config', 'environment.rb')
 require 'rails/test_help'
+
 Rails.backtrace_cleaner.remove_silencers!
 
 # a way to customize syntax for our tests
