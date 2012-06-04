@@ -33,11 +33,11 @@ class Presenting::HelpersTest < ActionView::TestCase
   end
   
   def test_presenting_a_time
-    assert_equal 'Fri, 13 Feb 2009 02:31:00 +0000', present(Time.zone.parse('02/13/2009 02:31 AM UTC'))
+    assert_equal 'Fri, 13 Feb 2009 02:31:00 +0000', present(Time.zone.parse('2009-02-13 02:31 AM UTC'))
   end
   
   def test_presenting_a_date
-    assert_equal '2009-02-13', present(Time.zone.parse('02/13/2009 02:31 AM').to_date)
+    assert_equal '2009-02-13', present(Time.zone.parse('2009-02-13 02:31 AM UTC').to_date)
   end
   
   def test_presenting_a_string
