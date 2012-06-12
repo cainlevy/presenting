@@ -17,7 +17,7 @@ module Presenting
   # copies all assets into the application's public directory
   # public/stylesheets/presenting and public/javascripts/presenting
   def self.precache!
-    presenting_dir = __FILE__.sub(/\/lib\/.*/, '') # there must be a better way
+    presenting_dir = File.join(File.dirname(__FILE__), '../') # gross
     %w(stylesheets javascripts).each do |asset_type|
       source_dir = File.join(presenting_dir, 'app', 'assets', asset_type)
       target_dir = File.join(Rails.application.paths["public/#{asset_type}"].first, 'presenting')
