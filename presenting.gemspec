@@ -2,7 +2,7 @@ $LOAD_PATH << File.dirname(__FILE__) + '/lib'
 
 Gem::Specification.new do |s|
   s.name = 'presenting'
-  s.version = '2.0.3'
+  s.version = '2.1.0'
   s.authors = ['Lance Ivy']
   s.email = 'lance@cainlevy.net'
   s.homepage = 'http://github.com/cainlevy/presenting'
