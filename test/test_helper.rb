@@ -1,8 +1,14 @@
 # load the test app, which will load gems
 ENV['RAILS_ENV'] = 'test'
-require File.join(File.dirname(__FILE__), 'r3', 'config', 'environment.rb')
+
+if ENV['RAILS_VERSION'] = '4'
+  require File.join(File.dirname(__FILE__), 'r4', 'config', 'environment.rb')
+else
+  require File.join(File.dirname(__FILE__), 'r3', 'config', 'environment.rb')
+end
+
+require 'test/unit/testcase'
 require 'rails/test_help'
-require 'mocha'
 
 Rails.backtrace_cleaner.remove_silencers!
 

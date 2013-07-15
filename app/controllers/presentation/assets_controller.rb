@@ -1,4 +1,10 @@
 class Presentation::AssetsController < ActionController::Base
+  # TODO: this is a hack b/c of load order in the extracted Rails 4 gems, read
+  # more in this pull request: https://github.com/rails/rails-observers/pull/8
+  if Rails.version >= '4.0.0'
+    include ActionController::Caching::Pages
+  end
+
   # TODO: consider packaging a minifier so we get the perfect solution: a cached, minified bundle of assets
   caches_page :stylesheet, :javascript
 
