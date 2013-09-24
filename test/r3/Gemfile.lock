@@ -1,7 +1,7 @@
 PATH
   remote: /Users/cainlevy/Code/presenting
   specs:
-    presenting (2.1.0)
+    presenting (3.0.0)
 
 GEM
   remote: http://rubygems.org/
