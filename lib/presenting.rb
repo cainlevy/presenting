@@ -19,7 +19,7 @@ module Presenting
   def self.precache!
     presenting_dir = File.join(File.dirname(__FILE__), '../') # gross
     %w(stylesheets javascripts).each do |asset_type|
-      source_dir = File.join(presenting_dir, 'app', 'assets', asset_type)
+      source_dir = File.join(presenting_dir, 'app', 'assets', asset_type, 'presenting')
       target_dir = File.join(Rails.application.paths["public/#{asset_type}"].first, 'presenting')
       FileUtils.mkdir_p(target_dir)
 
