@@ -1,17 +1,5 @@
 module Presenting
   module Helpers
-    def presentation_stylesheets(*args)
-      warn "[DEPRECATION] presentation_stylesheets is deprecated. Please use the stylesheets" <<
-           "that are copied to public/stylesheets/presenting/* on boot."
-      stylesheet_link_tag presentation_stylesheet_path(args.sort.join(','), :format => 'css')
-    end
-
-    def presentation_javascript(*args)
-      warn "[DEPRECATION] presentation_javascript is deprecated. Please use the javascripts" <<
-           "that are copied to public/javascripts/presenting/* on boot."
-      javascript_include_tag presentation_javascript_path(args.sort.join(','), :format => 'js')
-    end
-
     def present(*args, &block)
       options = args.length > 1 ? args.extract_options! : {}
 

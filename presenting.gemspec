@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.description = 'Provides view components to quickly render tables, forms, etc., typically for an admin interface.'
   s.license = 'MIT'
 
-  s.files = Dir.glob("lib/**/*") + Dir.glob("app/**/*") + %w(LICENSE README Rakefile config/routes.rb)
+  s.files = Dir.glob("lib/**/*") + Dir.glob("app/**/*") + %w(LICENSE README Rakefile)
   s.test_files = Dir.glob("test/**/*")
 
   s.add_development_dependency('mocha')
