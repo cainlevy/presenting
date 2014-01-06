@@ -4,7 +4,7 @@ module Presentation
   class FieldSearch < Search
     # This method supports the configuration-on-initialization paradigm. It makes:
     #   present = Presentation::FieldSearch.new(:fields => [
-    #     {:a => {:type => :list, :options => %w(foo bar baz)}},
+    #     {:a => {:type => :dropdown, :options => %w(foo bar baz)}},
     #     :b,
     #     {:c => :boolean}
     #   ])
@@ -12,7 +12,7 @@ module Presentation
     # equivalent to:
     #
     #   present = Presentation::FieldSearch.new
-    #   present.fields << {:a => {:type => :list, :options => %w(foo bar baz)}}
+    #   present.fields << {:a => {:type => :dropdown, :options => %w(foo bar baz)}}
     #   present.fields << :b
     #   present.fields << {:c => :boolean}
     def fields=(args)
@@ -51,7 +51,7 @@ module Presentation
       # * :text     (default)
       # * :checkbox
       # * :time     [planned]
-      # * :list     [planned]
+      # * :dropdown
       def type
         @type ||= :text
       end
